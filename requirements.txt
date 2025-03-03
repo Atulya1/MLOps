@@ -1,0 +1,21 @@
+# For Airflow (pick a version, or at least specify it)
+# In production, it's recommended to install with constraints. For demonstration:
+apache-airflow==2.6.2
+
+# Kaggle for data acquisition from Kaggle datasets
+kaggle
+
+# Elasticsearch client (you used elasticsearch7 in your code snippet)
+elasticsearch7
+
+# NLTK for text preprocessing (stopwords, tokenizing, etc.)
+nltk
+
+# Pandas (optional but common for CSV parsing/analysis)
+pandas
+
+# (Optional) If you plan to do data versioning:
+# dvc
+
+# (Optional) If you want testing frameworks
+pytest
