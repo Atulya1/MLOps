@@ -1,0 +1,88 @@
+[2025-03-02T21:12:49.937-0500] {processor.py:157} INFO - Started process (PID=81177) to work on /Users/atulkumar/Documents/MLOperations/MLOps/Data-Pipeline/dags/test_pipeline_dag.py
+[2025-03-02T21:12:49.939-0500] {processor.py:826} INFO - Processing file /Users/atulkumar/Documents/MLOperations/MLOps/Data-Pipeline/dags/test_pipeline_dag.py for tasks to queue
+[2025-03-02T21:12:49.939-0500] {logging_mixin.py:149} INFO - [2025-03-02T21:12:49.939-0500] {dagbag.py:541} INFO - Filling up the DagBag from /Users/atulkumar/Documents/MLOperations/MLOps/Data-Pipeline/dags/test_pipeline_dag.py
+[2025-03-02T21:12:49.969-0500] {processor.py:836} INFO - DAG(s) dict_keys(['test_pipeline_dag.py']) retrieved from /Users/atulkumar/Documents/MLOperations/MLOps/Data-Pipeline/dags/test_pipeline_dag.py
+[2025-03-02T21:12:50.334-0500] {logging_mixin.py:149} INFO - [2025-03-02T21:12:50.334-0500] {manager.py:504} INFO - Created Permission View: can edit on DAG:test_pipeline_dag.py
+[2025-03-02T21:12:50.337-0500] {logging_mixin.py:149} INFO - [2025-03-02T21:12:50.337-0500] {manager.py:504} INFO - Created Permission View: can read on DAG:test_pipeline_dag.py
+[2025-03-02T21:12:50.339-0500] {logging_mixin.py:149} INFO - [2025-03-02T21:12:50.339-0500] {manager.py:504} INFO - Created Permission View: can delete on DAG:test_pipeline_dag.py
+[2025-03-02T21:12:50.343-0500] {logging_mixin.py:149} INFO - [2025-03-02T21:12:50.343-0500] {dag.py:2726} INFO - Sync 1 DAGs
+[2025-03-02T21:12:50.348-0500] {logging_mixin.py:149} INFO - [2025-03-02T21:12:50.347-0500] {dag.py:2747} INFO - Creating ORM DAG for test_pipeline_dag.py
+[2025-03-02T21:12:50.351-0500] {logging_mixin.py:149} INFO - [2025-03-02T21:12:50.351-0500] {dag.py:3486} INFO - Setting next_dagrun for test_pipeline_dag.py to None, run_after=None
+[2025-03-02T21:12:50.357-0500] {processor.py:179} INFO - Processing /Users/atulkumar/Documents/MLOperations/MLOps/Data-Pipeline/dags/test_pipeline_dag.py took 0.420 seconds
+[2025-03-02T21:14:28.524-0500] {processor.py:157} INFO - Started process (PID=81320) to work on /Users/atulkumar/Documents/MLOperations/MLOps/Data-Pipeline/dags/test_pipeline_dag.py
+[2025-03-02T21:14:28.526-0500] {processor.py:826} INFO - Processing file /Users/atulkumar/Documents/MLOperations/MLOps/Data-Pipeline/dags/test_pipeline_dag.py for tasks to queue
+[2025-03-02T21:14:28.526-0500] {logging_mixin.py:149} INFO - [2025-03-02T21:14:28.526-0500] {dagbag.py:541} INFO - Filling up the DagBag from /Users/atulkumar/Documents/MLOperations/MLOps/Data-Pipeline/dags/test_pipeline_dag.py
+[2025-03-02T21:14:28.566-0500] {processor.py:836} INFO - DAG(s) dict_keys(['test_pipeline_dag.py']) retrieved from /Users/atulkumar/Documents/MLOperations/MLOps/Data-Pipeline/dags/test_pipeline_dag.py
+[2025-03-02T21:14:28.909-0500] {logging_mixin.py:149} INFO - [2025-03-02T21:14:28.908-0500] {dag.py:2726} INFO - Sync 1 DAGs
+[2025-03-02T21:14:28.915-0500] {logging_mixin.py:149} INFO - [2025-03-02T21:14:28.915-0500] {dag.py:3486} INFO - Setting next_dagrun for test_pipeline_dag.py to None, run_after=None
+[2025-03-02T21:14:28.924-0500] {processor.py:179} INFO - Processing /Users/atulkumar/Documents/MLOperations/MLOps/Data-Pipeline/dags/test_pipeline_dag.py took 0.401 seconds
+[2025-03-02T21:15:30.936-0500] {processor.py:157} INFO - Started process (PID=81403) to work on /Users/atulkumar/Documents/MLOperations/MLOps/Data-Pipeline/dags/test_pipeline_dag.py
+[2025-03-02T21:15:30.938-0500] {processor.py:826} INFO - Processing file /Users/atulkumar/Documents/MLOperations/MLOps/Data-Pipeline/dags/test_pipeline_dag.py for tasks to queue
+[2025-03-02T21:15:30.939-0500] {logging_mixin.py:149} INFO - [2025-03-02T21:15:30.939-0500] {dagbag.py:541} INFO - Filling up the DagBag from /Users/atulkumar/Documents/MLOperations/MLOps/Data-Pipeline/dags/test_pipeline_dag.py
+[2025-03-02T21:15:30.972-0500] {processor.py:836} INFO - DAG(s) dict_keys(['test_pipeline_dag.py']) retrieved from /Users/atulkumar/Documents/MLOperations/MLOps/Data-Pipeline/dags/test_pipeline_dag.py
+[2025-03-02T21:15:31.320-0500] {logging_mixin.py:149} INFO - [2025-03-02T21:15:31.319-0500] {dag.py:2726} INFO - Sync 1 DAGs
+[2025-03-02T21:15:31.325-0500] {logging_mixin.py:149} INFO - [2025-03-02T21:15:31.325-0500] {dag.py:3486} INFO - Setting next_dagrun for test_pipeline_dag.py to None, run_after=None
+[2025-03-02T21:15:31.333-0500] {processor.py:179} INFO - Processing /Users/atulkumar/Documents/MLOperations/MLOps/Data-Pipeline/dags/test_pipeline_dag.py took 0.397 seconds
+[2025-03-02T21:16:33.171-0500] {processor.py:157} INFO - Started process (PID=81488) to work on /Users/atulkumar/Documents/MLOperations/MLOps/Data-Pipeline/dags/test_pipeline_dag.py
+[2025-03-02T21:16:33.173-0500] {processor.py:826} INFO - Processing file /Users/atulkumar/Documents/MLOperations/MLOps/Data-Pipeline/dags/test_pipeline_dag.py for tasks to queue
+[2025-03-02T21:16:33.173-0500] {logging_mixin.py:149} INFO - [2025-03-02T21:16:33.173-0500] {dagbag.py:541} INFO - Filling up the DagBag from /Users/atulkumar/Documents/MLOperations/MLOps/Data-Pipeline/dags/test_pipeline_dag.py
+[2025-03-02T21:16:33.205-0500] {processor.py:836} INFO - DAG(s) dict_keys(['test_pipeline_dag.py']) retrieved from /Users/atulkumar/Documents/MLOperations/MLOps/Data-Pipeline/dags/test_pipeline_dag.py
+[2025-03-02T21:16:33.542-0500] {logging_mixin.py:149} INFO - [2025-03-02T21:16:33.542-0500] {dag.py:2726} INFO - Sync 1 DAGs
+[2025-03-02T21:16:33.548-0500] {logging_mixin.py:149} INFO - [2025-03-02T21:16:33.548-0500] {dag.py:3486} INFO - Setting next_dagrun for test_pipeline_dag.py to None, run_after=None
+[2025-03-02T21:16:33.556-0500] {processor.py:179} INFO - Processing /Users/atulkumar/Documents/MLOperations/MLOps/Data-Pipeline/dags/test_pipeline_dag.py took 0.386 seconds
+[2025-03-02T21:17:36.550-0500] {processor.py:157} INFO - Started process (PID=81579) to work on /Users/atulkumar/Documents/MLOperations/MLOps/Data-Pipeline/dags/test_pipeline_dag.py
+[2025-03-02T21:17:36.552-0500] {processor.py:826} INFO - Processing file /Users/atulkumar/Documents/MLOperations/MLOps/Data-Pipeline/dags/test_pipeline_dag.py for tasks to queue
+[2025-03-02T21:17:36.552-0500] {logging_mixin.py:149} INFO - [2025-03-02T21:17:36.552-0500] {dagbag.py:541} INFO - Filling up the DagBag from /Users/atulkumar/Documents/MLOperations/MLOps/Data-Pipeline/dags/test_pipeline_dag.py
+[2025-03-02T21:17:36.584-0500] {processor.py:836} INFO - DAG(s) dict_keys(['test_pipeline_dag.py']) retrieved from /Users/atulkumar/Documents/MLOperations/MLOps/Data-Pipeline/dags/test_pipeline_dag.py
+[2025-03-02T21:17:36.944-0500] {logging_mixin.py:149} INFO - [2025-03-02T21:17:36.944-0500] {dag.py:2726} INFO - Sync 1 DAGs
+[2025-03-02T21:17:36.951-0500] {logging_mixin.py:149} INFO - [2025-03-02T21:17:36.951-0500] {dag.py:3486} INFO - Setting next_dagrun for test_pipeline_dag.py to None, run_after=None
+[2025-03-02T21:17:36.959-0500] {processor.py:179} INFO - Processing /Users/atulkumar/Documents/MLOperations/MLOps/Data-Pipeline/dags/test_pipeline_dag.py took 0.410 seconds
+[2025-03-02T21:18:41.990-0500] {processor.py:157} INFO - Started process (PID=81673) to work on /Users/atulkumar/Documents/MLOperations/MLOps/Data-Pipeline/dags/test_pipeline_dag.py
+[2025-03-02T21:18:41.991-0500] {processor.py:826} INFO - Processing file /Users/atulkumar/Documents/MLOperations/MLOps/Data-Pipeline/dags/test_pipeline_dag.py for tasks to queue
+[2025-03-02T21:18:41.992-0500] {logging_mixin.py:149} INFO - [2025-03-02T21:18:41.992-0500] {dagbag.py:541} INFO - Filling up the DagBag from /Users/atulkumar/Documents/MLOperations/MLOps/Data-Pipeline/dags/test_pipeline_dag.py
+[2025-03-02T21:18:42.027-0500] {processor.py:836} INFO - DAG(s) dict_keys(['test_pipeline_dag.py']) retrieved from /Users/atulkumar/Documents/MLOperations/MLOps/Data-Pipeline/dags/test_pipeline_dag.py
+[2025-03-02T21:18:42.363-0500] {logging_mixin.py:149} INFO - [2025-03-02T21:18:42.363-0500] {dag.py:2726} INFO - Sync 1 DAGs
+[2025-03-02T21:18:42.370-0500] {logging_mixin.py:149} INFO - [2025-03-02T21:18:42.370-0500] {dag.py:3486} INFO - Setting next_dagrun for test_pipeline_dag.py to None, run_after=None
+[2025-03-02T21:18:42.379-0500] {processor.py:179} INFO - Processing /Users/atulkumar/Documents/MLOperations/MLOps/Data-Pipeline/dags/test_pipeline_dag.py took 0.389 seconds
+[2025-03-02T21:19:47.826-0500] {processor.py:157} INFO - Started process (PID=81788) to work on /Users/atulkumar/Documents/MLOperations/MLOps/Data-Pipeline/dags/test_pipeline_dag.py
+[2025-03-02T21:19:47.828-0500] {processor.py:826} INFO - Processing file /Users/atulkumar/Documents/MLOperations/MLOps/Data-Pipeline/dags/test_pipeline_dag.py for tasks to queue
+[2025-03-02T21:19:47.828-0500] {logging_mixin.py:149} INFO - [2025-03-02T21:19:47.828-0500] {dagbag.py:541} INFO - Filling up the DagBag from /Users/atulkumar/Documents/MLOperations/MLOps/Data-Pipeline/dags/test_pipeline_dag.py
+[2025-03-02T21:19:47.862-0500] {processor.py:836} INFO - DAG(s) dict_keys(['test_pipeline_dag.py']) retrieved from /Users/atulkumar/Documents/MLOperations/MLOps/Data-Pipeline/dags/test_pipeline_dag.py
+[2025-03-02T21:19:48.227-0500] {logging_mixin.py:149} INFO - [2025-03-02T21:19:48.227-0500] {dag.py:2726} INFO - Sync 1 DAGs
+[2025-03-02T21:19:48.233-0500] {logging_mixin.py:149} INFO - [2025-03-02T21:19:48.233-0500] {dag.py:3486} INFO - Setting next_dagrun for test_pipeline_dag.py to None, run_after=None
+[2025-03-02T21:19:48.244-0500] {processor.py:179} INFO - Processing /Users/atulkumar/Documents/MLOperations/MLOps/Data-Pipeline/dags/test_pipeline_dag.py took 0.418 seconds
+[2025-03-02T21:20:53.423-0500] {processor.py:157} INFO - Started process (PID=81895) to work on /Users/atulkumar/Documents/MLOperations/MLOps/Data-Pipeline/dags/test_pipeline_dag.py
+[2025-03-02T21:20:53.425-0500] {processor.py:826} INFO - Processing file /Users/atulkumar/Documents/MLOperations/MLOps/Data-Pipeline/dags/test_pipeline_dag.py for tasks to queue
+[2025-03-02T21:20:53.426-0500] {logging_mixin.py:149} INFO - [2025-03-02T21:20:53.426-0500] {dagbag.py:541} INFO - Filling up the DagBag from /Users/atulkumar/Documents/MLOperations/MLOps/Data-Pipeline/dags/test_pipeline_dag.py
+[2025-03-02T21:20:53.462-0500] {processor.py:836} INFO - DAG(s) dict_keys(['test_pipeline_dag.py']) retrieved from /Users/atulkumar/Documents/MLOperations/MLOps/Data-Pipeline/dags/test_pipeline_dag.py
+[2025-03-02T21:20:53.853-0500] {logging_mixin.py:149} INFO - [2025-03-02T21:20:53.853-0500] {dag.py:2726} INFO - Sync 1 DAGs
+[2025-03-02T21:20:53.859-0500] {logging_mixin.py:149} INFO - [2025-03-02T21:20:53.859-0500] {dag.py:3486} INFO - Setting next_dagrun for test_pipeline_dag.py to None, run_after=None
+[2025-03-02T21:20:53.868-0500] {processor.py:179} INFO - Processing /Users/atulkumar/Documents/MLOperations/MLOps/Data-Pipeline/dags/test_pipeline_dag.py took 0.445 seconds
+[2025-03-02T21:21:57.812-0500] {processor.py:157} INFO - Started process (PID=81987) to work on /Users/atulkumar/Documents/MLOperations/MLOps/Data-Pipeline/dags/test_pipeline_dag.py
+[2025-03-02T21:21:57.814-0500] {processor.py:826} INFO - Processing file /Users/atulkumar/Documents/MLOperations/MLOps/Data-Pipeline/dags/test_pipeline_dag.py for tasks to queue
+[2025-03-02T21:21:57.814-0500] {logging_mixin.py:149} INFO - [2025-03-02T21:21:57.814-0500] {dagbag.py:541} INFO - Filling up the DagBag from /Users/atulkumar/Documents/MLOperations/MLOps/Data-Pipeline/dags/test_pipeline_dag.py
+[2025-03-02T21:21:57.846-0500] {processor.py:836} INFO - DAG(s) dict_keys(['test_pipeline_dag.py']) retrieved from /Users/atulkumar/Documents/MLOperations/MLOps/Data-Pipeline/dags/test_pipeline_dag.py
+[2025-03-02T21:21:58.260-0500] {logging_mixin.py:149} INFO - [2025-03-02T21:21:58.260-0500] {dag.py:2726} INFO - Sync 1 DAGs
+[2025-03-02T21:21:58.275-0500] {logging_mixin.py:149} INFO - [2025-03-02T21:21:58.275-0500] {dag.py:3486} INFO - Setting next_dagrun for test_pipeline_dag.py to None, run_after=None
+[2025-03-02T21:21:58.287-0500] {processor.py:179} INFO - Processing /Users/atulkumar/Documents/MLOperations/MLOps/Data-Pipeline/dags/test_pipeline_dag.py took 0.475 seconds
+[2025-03-02T21:23:04.277-0500] {processor.py:157} INFO - Started process (PID=82072) to work on /Users/atulkumar/Documents/MLOperations/MLOps/Data-Pipeline/dags/test_pipeline_dag.py
+[2025-03-02T21:23:04.280-0500] {processor.py:826} INFO - Processing file /Users/atulkumar/Documents/MLOperations/MLOps/Data-Pipeline/dags/test_pipeline_dag.py for tasks to queue
+[2025-03-02T21:23:04.280-0500] {logging_mixin.py:149} INFO - [2025-03-02T21:23:04.280-0500] {dagbag.py:541} INFO - Filling up the DagBag from /Users/atulkumar/Documents/MLOperations/MLOps/Data-Pipeline/dags/test_pipeline_dag.py
+[2025-03-02T21:23:04.314-0500] {processor.py:836} INFO - DAG(s) dict_keys(['test_pipeline_dag.py']) retrieved from /Users/atulkumar/Documents/MLOperations/MLOps/Data-Pipeline/dags/test_pipeline_dag.py
+[2025-03-02T21:23:04.652-0500] {logging_mixin.py:149} INFO - [2025-03-02T21:23:04.652-0500] {dag.py:2726} INFO - Sync 1 DAGs
+[2025-03-02T21:23:04.659-0500] {logging_mixin.py:149} INFO - [2025-03-02T21:23:04.659-0500] {dag.py:3486} INFO - Setting next_dagrun for test_pipeline_dag.py to None, run_after=None
+[2025-03-02T21:23:04.668-0500] {processor.py:179} INFO - Processing /Users/atulkumar/Documents/MLOperations/MLOps/Data-Pipeline/dags/test_pipeline_dag.py took 0.391 seconds
+[2025-03-02T21:24:10.255-0500] {processor.py:157} INFO - Started process (PID=82163) to work on /Users/atulkumar/Documents/MLOperations/MLOps/Data-Pipeline/dags/test_pipeline_dag.py
+[2025-03-02T21:24:10.257-0500] {processor.py:826} INFO - Processing file /Users/atulkumar/Documents/MLOperations/MLOps/Data-Pipeline/dags/test_pipeline_dag.py for tasks to queue
+[2025-03-02T21:24:10.258-0500] {logging_mixin.py:149} INFO - [2025-03-02T21:24:10.257-0500] {dagbag.py:541} INFO - Filling up the DagBag from /Users/atulkumar/Documents/MLOperations/MLOps/Data-Pipeline/dags/test_pipeline_dag.py
+[2025-03-02T21:24:10.291-0500] {processor.py:836} INFO - DAG(s) dict_keys(['test_pipeline_dag.py']) retrieved from /Users/atulkumar/Documents/MLOperations/MLOps/Data-Pipeline/dags/test_pipeline_dag.py
+[2025-03-02T21:24:10.605-0500] {logging_mixin.py:149} INFO - [2025-03-02T21:24:10.605-0500] {dag.py:2726} INFO - Sync 1 DAGs
+[2025-03-02T21:24:10.611-0500] {logging_mixin.py:149} INFO - [2025-03-02T21:24:10.611-0500] {dag.py:3486} INFO - Setting next_dagrun for test_pipeline_dag.py to None, run_after=None
+[2025-03-02T21:24:10.619-0500] {processor.py:179} INFO - Processing /Users/atulkumar/Documents/MLOperations/MLOps/Data-Pipeline/dags/test_pipeline_dag.py took 0.365 seconds
+[2025-03-02T21:25:23.631-0500] {processor.py:157} INFO - Started process (PID=82347) to work on /Users/atulkumar/Documents/MLOperations/MLOps/Data-Pipeline/dags/test_pipeline_dag.py
+[2025-03-02T21:25:23.634-0500] {processor.py:826} INFO - Processing file /Users/atulkumar/Documents/MLOperations/MLOps/Data-Pipeline/dags/test_pipeline_dag.py for tasks to queue
+[2025-03-02T21:25:23.634-0500] {logging_mixin.py:149} INFO - [2025-03-02T21:25:23.634-0500] {dagbag.py:541} INFO - Filling up the DagBag from /Users/atulkumar/Documents/MLOperations/MLOps/Data-Pipeline/dags/test_pipeline_dag.py
+[2025-03-02T21:25:23.670-0500] {processor.py:836} INFO - DAG(s) dict_keys(['test_pipeline_dag.py']) retrieved from /Users/atulkumar/Documents/MLOperations/MLOps/Data-Pipeline/dags/test_pipeline_dag.py
+[2025-03-02T21:25:24.057-0500] {logging_mixin.py:149} INFO - [2025-03-02T21:25:24.056-0500] {dag.py:2726} INFO - Sync 1 DAGs
+[2025-03-02T21:25:24.065-0500] {logging_mixin.py:149} INFO - [2025-03-02T21:25:24.065-0500] {dag.py:3486} INFO - Setting next_dagrun for test_pipeline_dag.py to None, run_after=None
+[2025-03-02T21:25:24.076-0500] {processor.py:179} INFO - Processing /Users/atulkumar/Documents/MLOperations/MLOps/Data-Pipeline/dags/test_pipeline_dag.py took 0.445 seconds
