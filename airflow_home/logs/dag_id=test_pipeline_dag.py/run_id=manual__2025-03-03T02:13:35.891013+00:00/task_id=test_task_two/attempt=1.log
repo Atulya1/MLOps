@@ -1,0 +1,14 @@
+[2025-03-02T21:13:41.247-0500] {taskinstance.py:1103} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: test_pipeline_dag.py.test_task_two manual__2025-03-03T02:13:35.891013+00:00 [queued]>
+[2025-03-02T21:13:41.250-0500] {taskinstance.py:1103} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: test_pipeline_dag.py.test_task_two manual__2025-03-03T02:13:35.891013+00:00 [queued]>
+[2025-03-02T21:13:41.250-0500] {taskinstance.py:1308} INFO - Starting attempt 1 of 1
+[2025-03-02T21:13:41.255-0500] {taskinstance.py:1327} INFO - Executing <Task(PythonOperator): test_task_two> on 2025-03-03 02:13:35.891013+00:00
+[2025-03-02T21:13:41.261-0500] {standard_task_runner.py:57} INFO - Started process 81254 to run task
+[2025-03-02T21:13:41.267-0500] {standard_task_runner.py:84} INFO - Running: ['airflow', 'tasks', 'run', 'test_pipeline_dag.py', 'test_task_two', 'manual__2025-03-03T02:13:35.891013+00:00', '--job-id', '3', '--raw', '--subdir', 'DAGS_FOLDER/test_pipeline_dag.py', '--cfg-path', '/var/folders/sx/ws755v9j6036tfw9grrm2h3c0000gn/T/tmpbd8xs2lv']
+[2025-03-02T21:13:41.269-0500] {standard_task_runner.py:85} INFO - Job 3: Subtask test_task_two
+[2025-03-02T21:13:41.290-0500] {task_command.py:410} INFO - Running <TaskInstance: test_pipeline_dag.py.test_task_two manual__2025-03-03T02:13:35.891013+00:00 [running]> on host macbookpro.mynetworksettings.com
+[2025-03-02T21:13:41.309-0500] {taskinstance.py:1545} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='airflow' AIRFLOW_CTX_DAG_ID='test_pipeline_dag.py' AIRFLOW_CTX_TASK_ID='test_task_two' AIRFLOW_CTX_EXECUTION_DATE='2025-03-03T02:13:35.891013+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2025-03-03T02:13:35.891013+00:00'
+[2025-03-02T21:13:41.310-0500] {logging_mixin.py:149} INFO - Hello from Task Two!
+[2025-03-02T21:13:41.310-0500] {python.py:183} INFO - Done. Returned value was: Task Two Complete
+[2025-03-02T21:13:41.315-0500] {taskinstance.py:1345} INFO - Marking task as SUCCESS. dag_id=test_pipeline_dag.py, task_id=test_task_two, execution_date=20250303T021335, start_date=20250303T021341, end_date=20250303T021341
+[2025-03-02T21:13:41.321-0500] {local_task_job_runner.py:225} INFO - Task exited with return code 0
+[2025-03-02T21:13:41.326-0500] {taskinstance.py:2653} INFO - 0 downstream tasks scheduled from follow-on schedule check
