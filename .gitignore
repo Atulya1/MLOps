@@ -1,1 +1,9 @@
 .idea
+.DS_Store
+
+Data-Pipeline/data/version_1
+Data-Pipeline/data/version_2
+Data-Pipeline/data/version_3
+
+Data-Pipeline/scripts/__pycache__/
+Data-Pipeline/scripts/.ipynb_checkpoints
