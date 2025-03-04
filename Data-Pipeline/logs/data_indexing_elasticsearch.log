@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 2025-03-03 16:20:51,271 :: INFO :: __main__ :: Successfully connected to Elasticsearch at http://localhost:9200
 2025-03-03 16:20:51,665 :: INFO :: __main__ :: Index 'tweets_ukraine_version_1' has been created with custom settings.
 2025-03-03 16:20:57,111 :: INFO :: __main__ :: Indexing 237912 tweets into 'tweets_ukraine_version_1'...
@@ -25,3 +26,5 @@
 2025-03-03 21:24:06,302 :: INFO :: __main__ :: Indexing 237912 tweets into 'tweets_ukraine_version_1'...
 2025-03-03 22:29:32,019 :: INFO :: __main__ :: Finished indexing. Total successful: 237912
 2025-03-03 22:29:32,028 :: INFO :: __main__ :: Index 'tweets_ukraine_version_1'. Indexing Completed.
+=======
+>>>>>>> origin/dev_atul

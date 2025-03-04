@@ -18,8 +18,6 @@ Requires:
     - nltk stopwords if you use them in the "english_stop" filter
 """
 import hashlib
-import logging
-import os
 
 from elasticsearch7 import Elasticsearch
 from logging_config import get_logger
@@ -31,7 +29,7 @@ from nltk.corpus import stopwords
 nltk.download('stopwords')
 nltk_stopwords = stopwords.words('english')
 
-logger = get_logger("data_index_elasticsearch.log", logger_name=__name__)
+logger = get_logger("data_indexing_elasticsearch.log", logger_name=__name__)
 
 def get_es_client(host="http://localhost:9200", timeout=30):
     """
@@ -102,6 +100,7 @@ def index_tweets(es_client, index_name, tweets_dict):
             # Use generate_id_from_text to produce a consistent ID for duplicate texts
             doc_id = generate_id_from_text(tweet_text)
             es_client.index(index=index_name, id=doc_id, body=tweet_data)
+
             count += 1
         except Exception as e:
             logger.error(f"Failed to index tweet_id {tweet_id}: {e}")
@@ -124,6 +123,7 @@ def main():
 
     tweets = parse_folder("../data/version_1")
     index_name = "tweets_ukraine_version_1"
+
     index_elasticsearch(tweets, index_name)
 
 if __name__ == "__main__":
