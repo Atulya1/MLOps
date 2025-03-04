@@ -18,6 +18,7 @@ Requires:
     - nltk stopwords if you use them in the "english_stop" filter
 """
 import hashlib
+
 import logging
 import os
 
@@ -102,6 +103,7 @@ def index_tweets(es_client, index_name, tweets_dict):
             # Use generate_id_from_text to produce a consistent ID for duplicate texts
             doc_id = generate_id_from_text(tweet_text)
             es_client.index(index=index_name, id=doc_id, body=tweet_data)
+
             count += 1
         except Exception as e:
             logger.error(f"Failed to index tweet_id {tweet_id}: {e}")
@@ -124,6 +126,7 @@ def main():
 
     tweets = parse_folder("../data/version_1")
     index_name = "tweets_ukraine_version_1"
+
     index_elasticsearch(tweets, index_name)
 
 if __name__ == "__main__":
