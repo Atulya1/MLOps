@@ -55,8 +55,14 @@ def get_es_mappings():
             },
             "retweetcount":  {"type": "integer"},
             "text": {
-                "type":     "text",
-                "analyzer": "stopped"  # referencing your custom analyzer
+                "type": "text",
+                "analyzer": "stopped",
+                "fields": {
+                    "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                    }
+                }
             },
             "hashtags":      {"type": "keyword"},
             "language":      {"type": "keyword"},
