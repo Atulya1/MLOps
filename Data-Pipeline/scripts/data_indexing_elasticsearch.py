@@ -5,6 +5,7 @@ Creates an Elasticsearch index with a custom schema/analysis,
 then indexes tweet documents into that index.
 
 Usage:
+
     1) python data_index_elasticsearch_tests.py
        (For a standalone test, it will create the index and optionally index some example docs.)
     2) In your DAG or another script, call:
@@ -18,7 +19,6 @@ Requires:
     - nltk stopwords if you use them in the "english_stop" filter
 """
 import hashlib
-
 from elasticsearch7 import Elasticsearch
 from logging_config import get_logger
 from data_preprocessing import parse_folder
