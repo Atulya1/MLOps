@@ -17,7 +17,7 @@ Requires:
     - logging_config.get_logger for logging
     - nltk stopwords if you use them in the "english_stop" filter
 """
-
+import hashlib
 import logging
 import os
 
@@ -86,7 +86,8 @@ def create_index(es_client, index_name, stopwords):
     logger.info(f"Index '{index_name}' has been created with custom settings.")
     return True
 
-
+def generate_id_from_text(text):
+    return hashlib.md5(text.encode('utf-8')).hexdigest()
 
 def index_tweets(es_client, index_name, tweets_dict):
     """
@@ -97,7 +98,10 @@ def index_tweets(es_client, index_name, tweets_dict):
     count = 0
     for tweet_id, tweet_data in tweets_dict.items():
         try:
-            es_client.index(index=index_name, id=tweet_id, body=tweet_data)
+            tweet_text = tweet_data.get("text", "")
+            # Use generate_id_from_text to produce a consistent ID for duplicate texts
+            doc_id = generate_id_from_text(tweet_text)
+            es_client.index(index=index_name, id=doc_id, body=tweet_data)
             count += 1
         except Exception as e:
             logger.error(f"Failed to index tweet_id {tweet_id}: {e}")
@@ -118,8 +122,8 @@ def index_elasticsearch(tweets, index_name):
 
 def main():
 
-    tweets = parse_folder("../data/version_2")
-    index_name = "tweets_ukraine_version_2"
+    tweets = parse_folder("../data/version_1")
+    index_name = "tweets_ukraine_version_1"
     index_elasticsearch(tweets, index_name)
 
 if __name__ == "__main__":

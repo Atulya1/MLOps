@@ -170,3 +170,48 @@
 2025-03-03 20:10:39,290 :: INFO :: data_preprocessing :: Parsing file: ../data/version_2/0910_UkraineCombinedTweetsDeduped.csv
 2025-03-03 20:10:40,249 :: INFO :: data_preprocessing :: Finished parsing ../data/version_2/0910_UkraineCombinedTweetsDeduped.csv. Valid tweets: 31931
 2025-03-03 20:10:40,249 :: INFO :: data_preprocessing :: Completed parsing folder: ../data/version_2. Total tweets: 367220
+2025-03-03 21:23:39,419 :: INFO :: __main__ :: Parsing folder: ../data/version_1
+2025-03-03 21:23:39,419 :: INFO :: __main__ :: Parsing file: ../data/version_1/0822_UkraineCombinedTweetsDeduped.csv
+2025-03-03 21:23:39,889 :: INFO :: __main__ :: Finished parsing ../data/version_1/0822_UkraineCombinedTweetsDeduped.csv. Valid tweets: 22168
+2025-03-03 21:23:39,889 :: INFO :: __main__ :: Parsing file: ../data/version_1/0826_UkraineCombinedTweetsDeduped.csv
+2025-03-03 21:23:40,475 :: INFO :: __main__ :: Finished parsing ../data/version_1/0826_UkraineCombinedTweetsDeduped.csv. Valid tweets: 27030
+2025-03-03 21:23:40,475 :: INFO :: __main__ :: Parsing file: ../data/version_1/0819_UkraineCombinedTweetsDeduped.csv
+2025-03-03 21:23:41,001 :: INFO :: __main__ :: Finished parsing ../data/version_1/0819_UkraineCombinedTweetsDeduped.csv. Valid tweets: 23179
+2025-03-03 21:23:41,001 :: INFO :: __main__ :: Parsing file: ../data/version_1/0821_UkraineCombinedTweetsDeduped.csv
+2025-03-03 21:23:41,518 :: INFO :: __main__ :: Finished parsing ../data/version_1/0821_UkraineCombinedTweetsDeduped.csv. Valid tweets: 20242
+2025-03-03 21:23:41,518 :: INFO :: __main__ :: Parsing file: ../data/version_1/0825_UkraineCombinedTweetsDeduped.csv
+2025-03-03 21:23:42,081 :: INFO :: __main__ :: Finished parsing ../data/version_1/0825_UkraineCombinedTweetsDeduped.csv. Valid tweets: 28265
+2025-03-03 21:23:42,081 :: INFO :: __main__ :: Parsing file: ../data/version_1/0827_UkraineCombinedTweetsDeduped.csv
+2025-03-03 21:23:42,502 :: INFO :: __main__ :: Finished parsing ../data/version_1/0827_UkraineCombinedTweetsDeduped.csv. Valid tweets: 17543
+2025-03-03 21:23:42,502 :: INFO :: __main__ :: Parsing file: ../data/version_1/0823_UkraineCombinedTweetsDeduped.csv
+2025-03-03 21:23:43,022 :: INFO :: __main__ :: Finished parsing ../data/version_1/0823_UkraineCombinedTweetsDeduped.csv. Valid tweets: 23760
+2025-03-03 21:23:43,023 :: INFO :: __main__ :: Parsing file: ../data/version_1/0824_UkraineCombinedTweetsDeduped.csv
+2025-03-03 21:23:43,892 :: INFO :: __main__ :: Finished parsing ../data/version_1/0824_UkraineCombinedTweetsDeduped.csv. Valid tweets: 38504
+2025-03-03 21:23:43,892 :: INFO :: __main__ :: Parsing file: ../data/version_1/0820_UkraineCombinedTweetsDeduped.csv
+2025-03-03 21:23:44,360 :: INFO :: __main__ :: Finished parsing ../data/version_1/0820_UkraineCombinedTweetsDeduped.csv. Valid tweets: 20103
+2025-03-03 21:23:44,360 :: INFO :: __main__ :: Parsing file: ../data/version_1/0828_UkraineCombinedTweetsDeduped.csv
+2025-03-03 21:23:44,869 :: INFO :: __main__ :: Finished parsing ../data/version_1/0828_UkraineCombinedTweetsDeduped.csv. Valid tweets: 17118
+2025-03-03 21:23:44,870 :: INFO :: __main__ :: Completed parsing folder: ../data/version_1. Total tweets: 237912
+2025-03-03 21:23:44,870 :: INFO :: __main__ :: Standalone run: 237912 tweets processed.
+2025-03-03 21:24:00,635 :: INFO :: data_preprocessing :: Parsing folder: ../data/version_1
+2025-03-03 21:24:00,636 :: INFO :: data_preprocessing :: Parsing file: ../data/version_1/0822_UkraineCombinedTweetsDeduped.csv
+2025-03-03 21:24:01,182 :: INFO :: data_preprocessing :: Finished parsing ../data/version_1/0822_UkraineCombinedTweetsDeduped.csv. Valid tweets: 22168
+2025-03-03 21:24:01,182 :: INFO :: data_preprocessing :: Parsing file: ../data/version_1/0826_UkraineCombinedTweetsDeduped.csv
+2025-03-03 21:24:01,756 :: INFO :: data_preprocessing :: Finished parsing ../data/version_1/0826_UkraineCombinedTweetsDeduped.csv. Valid tweets: 27030
+2025-03-03 21:24:01,756 :: INFO :: data_preprocessing :: Parsing file: ../data/version_1/0819_UkraineCombinedTweetsDeduped.csv
+2025-03-03 21:24:02,294 :: INFO :: data_preprocessing :: Finished parsing ../data/version_1/0819_UkraineCombinedTweetsDeduped.csv. Valid tweets: 23179
+2025-03-03 21:24:02,294 :: INFO :: data_preprocessing :: Parsing file: ../data/version_1/0821_UkraineCombinedTweetsDeduped.csv
+2025-03-03 21:24:02,731 :: INFO :: data_preprocessing :: Finished parsing ../data/version_1/0821_UkraineCombinedTweetsDeduped.csv. Valid tweets: 20242
+2025-03-03 21:24:02,731 :: INFO :: data_preprocessing :: Parsing file: ../data/version_1/0825_UkraineCombinedTweetsDeduped.csv
+2025-03-03 21:24:03,392 :: INFO :: data_preprocessing :: Finished parsing ../data/version_1/0825_UkraineCombinedTweetsDeduped.csv. Valid tweets: 28265
+2025-03-03 21:24:03,392 :: INFO :: data_preprocessing :: Parsing file: ../data/version_1/0827_UkraineCombinedTweetsDeduped.csv
+2025-03-03 21:24:03,767 :: INFO :: data_preprocessing :: Finished parsing ../data/version_1/0827_UkraineCombinedTweetsDeduped.csv. Valid tweets: 17543
+2025-03-03 21:24:03,767 :: INFO :: data_preprocessing :: Parsing file: ../data/version_1/0823_UkraineCombinedTweetsDeduped.csv
+2025-03-03 21:24:04,347 :: INFO :: data_preprocessing :: Finished parsing ../data/version_1/0823_UkraineCombinedTweetsDeduped.csv. Valid tweets: 23760
+2025-03-03 21:24:04,347 :: INFO :: data_preprocessing :: Parsing file: ../data/version_1/0824_UkraineCombinedTweetsDeduped.csv
+2025-03-03 21:24:05,113 :: INFO :: data_preprocessing :: Finished parsing ../data/version_1/0824_UkraineCombinedTweetsDeduped.csv. Valid tweets: 38504
+2025-03-03 21:24:05,113 :: INFO :: data_preprocessing :: Parsing file: ../data/version_1/0820_UkraineCombinedTweetsDeduped.csv
+2025-03-03 21:24:05,657 :: INFO :: data_preprocessing :: Finished parsing ../data/version_1/0820_UkraineCombinedTweetsDeduped.csv. Valid tweets: 20103
+2025-03-03 21:24:05,657 :: INFO :: data_preprocessing :: Parsing file: ../data/version_1/0828_UkraineCombinedTweetsDeduped.csv
+2025-03-03 21:24:06,041 :: INFO :: data_preprocessing :: Finished parsing ../data/version_1/0828_UkraineCombinedTweetsDeduped.csv. Valid tweets: 17118
+2025-03-03 21:24:06,041 :: INFO :: data_preprocessing :: Completed parsing folder: ../data/version_1. Total tweets: 237912
