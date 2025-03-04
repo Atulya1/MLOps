@@ -7,3 +7,4 @@ Data-Pipeline/data/version_3
 
 Data-Pipeline/scripts/__pycache__/
 Data-Pipeline/scripts/.ipynb_checkpoints
+Data-Pipeline/tests/__pycache__/
