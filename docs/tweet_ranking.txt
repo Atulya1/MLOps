@@ -1,0 +1,153 @@
+Below is a high-level method to combine text relevance (60%) with four numeric factors—followers, likes,
+retweets, and replies—each contributing 10% to the final score. We’ll use function_score with a script_score
+so we can define a single formula that weights each component by your desired percentages.
+We’ll also normalize each numeric field (0 to multi-millions) using a log transform so that extremely large
+values don’t dominate.
+
+
+final_score = 0.6 * text_score
+            + 0.1 * followers_factor
+            + 0.1 * likes_factor
+            + 0.1 * retweets_factor
+            + 0.1 * replies_factor
+
+Where:
+
+text_score is the standard relevance from the text match (e.g., multi_match on “text” and “hashtags”).
+Each numeric factor is normalized—for example, using a log1p transform (log(1 + x)) to reduce the effect
+of extremely large numbers.
+
+Why a script_score?
+Using a script inside function_score lets you define the exact formula for combining text relevance + numeric fields.
+For a precise 60/10/10/10/10 ratio, the script_score approach is more explicit.
+
+{
+  "size": 10,
+  "query": {
+    "function_score": {
+      "query": {
+        "multi_match": {
+          "query":    "russia war end",
+          "fields":   ["text^1.0", "hashtags^1.0"]
+        }
+      },
+      "score_mode": "none",
+      "boost_mode": "replace",
+      "functions": [
+        {
+          "script_score": {
+            "script": {
+              "lang": "painless",
+              "source": """
+                // 1) text_score is the base _score from multi_match
+                double textScore = _score;
+
+                // 2) Get numeric fields (followers, likes, retweets, replies)
+                //    If a field doesn't exist or is null, assume 0
+                double followers = (doc['followers'].size() > 0) ? doc['followers'].value : 0.0;
+                double likes     = (doc['likes'].size()     > 0) ? doc['likes'].value     : 0.0;
+                double retweets  = (doc['retweetcount'].size() > 0) ? doc['retweetcount'].value : 0.0;
+                double replies   = (doc['replies'].size()   > 0) ? doc['replies'].value   : 0.0;
+
+                // 3) Normalize each numeric using log(1 + x)
+                //    We also divide by some factor to scale it down further
+                //    Adjust the divisors (10.0, 5.0, etc.) as you see fit
+                double followersNorm = Math.log1p(followers) / 10.0;
+                double likesNorm     = Math.log1p(likes)     / 10.0;
+                double retweetsNorm  = Math.log1p(retweets)  / 10.0;
+                double repliesNorm   = Math.log1p(replies)   / 10.0;
+
+                // 4) Weighted combination
+                // final_score = 0.6 * text_score
+                //            + 0.1 * followersNorm
+                //            + 0.1 * likesNorm
+                //            + 0.1 * retweetsNorm
+                //            + 0.1 * repliesNorm
+                double finalScore = 0.6 * textScore
+                                  + 0.1 * followersNorm
+                                  + 0.1 * likesNorm
+                                  + 0.1 * retweetsNorm
+                                  + 0.1 * repliesNorm;
+
+                return finalScore;
+              """
+            }
+          }
+        }
+      ]
+    }
+  }
+}
+
+Above is an Elasticsearch query body. It does:
+
+1. A multi_match on “text” + “hashtags” for the user’s query.
+2. Wraps it in a function_score with score_mode: none (since we’ll ignore any built-in function combos)
+3. Uses script_score to combine the base text _score with numeric fields.
+
+
+Explanation
+1. "score_mode": "none", "boost_mode": "replace":
+
+Tells Elasticsearch: do not combine the function’s output with _score in the usual ways. Instead, replace the final doc
+score with the script’s return value.
+We already reference _score inside the script to incorporate the text relevance.
+
+2. Normalization: Math.log1p(x) → log(1+x).
+
+This is a common approach to avoid multi-million “followers” overshadowing everything else.
+We also divide by 10.0 so typical values remain in a moderate range.
+Tweak these divisors based on your data distribution.
+3. Weight:
+
+0.6 * textScore vs. 0.1 * followersNorm vs. likes, retweets, replies. This ensures text relevance is 60% of the final, while each numeric factor is 10%.
+4. Search Fields:
+
+"fields": ["text^1.0", "hashtags^1.0"] means no extra field-level boosts. Alternatively, you can do "text^2.0" if you want the text field to have additional weight before the script. But usually, you keep them equal here since you’re controlling the final ratio in the script.
+
+
+
+GET _search
+{
+  "size": 10,
+  "query": {
+    "function_score": {
+      "query": {
+        "multi_match": {
+          "query": "russia war end",
+          "fields": ["text", "hashtags"]
+        }
+      },
+      "score_mode": "sum",
+      "boost_mode": "replace",
+      "functions": [
+        {
+          "script_score": {
+            "script": {
+              "lang": "painless",
+              "source": """
+                double textScore = _score;
+                double followers = (doc['followers'].size() > 0) ? doc['followers'].value : 0.0;
+                double likes    = (doc['likes'].size() > 0) ? doc['likes'].value : 0.0;
+                double retweets = (doc['retweetcount'].size() > 0) ? doc['retweetcount'].value : 0.0;
+                double replies  = (doc['replies'].size() > 0) ? doc['replies'].value : 0.0;
+
+                double followersNorm = Math.log1p(followers)/10.0;
+                double likesNorm    = Math.log1p(likes)/10.0;
+                double retweetsNorm = Math.log1p(retweets)/10.0;
+                double repliesNorm  = Math.log1p(replies)/10.0;
+
+                double finalScore = 0.6 * textScore
+                                    + 0.1 * followersNorm
+                                    + 0.1 * likesNorm
+                                    + 0.1 * retweetsNorm
+                                    + 0.1 * repliesNorm;
+                return finalScore;
+              """
+            }
+          }
+        }
+      ]
+    }
+  }
+}
