@@ -115,7 +115,7 @@ def main():
     else:
         query_string = "russia war end"
 
-    index_name = "tweets_ukraine"  # Change if needed
+    index_name = "tweets_ukraine_version_1"  # Change if needed
     es_client = get_es_client()
 
     hits = search_custom(es_client, index_name, query_string, size=10)
