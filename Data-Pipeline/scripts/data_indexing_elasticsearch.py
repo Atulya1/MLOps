@@ -1,11 +1,11 @@
 """
-index_elasticsearch_tests.py
+data_index_elasticsearch_tests.py
 
 Creates an Elasticsearch index with a custom schema/analysis,
 then indexes tweet documents into that index.
 
 Usage:
-    1) python index_elasticsearch_tests.py
+    1) python data_index_elasticsearch_tests.py
        (For a standalone test, it will create the index and optionally index some example docs.)
     2) In your DAG or another script, call:
        from index_elasticsearch import create_index, index_tweets
@@ -31,7 +31,7 @@ from nltk.corpus import stopwords
 nltk.download('stopwords')
 nltk_stopwords = stopwords.words('english')
 
-logger = get_logger("index_elasticsearch.log", logger_name=__name__)
+logger = get_logger("data_index_elasticsearch.log", logger_name=__name__)
 
 def get_es_client(host="http://localhost:9200", timeout=30):
     """
