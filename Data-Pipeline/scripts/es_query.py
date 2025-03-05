@@ -1,12 +1,12 @@
 """
-es_query_custom.py
+es_query.py
 
 Queries Elasticsearch with a custom function_score query that combines text relevance
 with weighted numeric factors (followers, retweets, etc.). The search query is taken as input.
 Logs all events to console and a log file.
 
 Usage:
-    python es_query_custom.py "your search query"
+python es_query_custom.py "your search query"
 If no query is provided, a default query ("russia war end") is used.
 """
 

@@ -18,7 +18,6 @@ Requires:
     - nltk stopwords if you use them in the "english_stop" filter
 """
 import hashlib
-
 from elasticsearch7 import Elasticsearch
 from logging_config import get_logger
 from data_preprocessing import parse_folder
