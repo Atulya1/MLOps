@@ -9,7 +9,9 @@ Data-Pipeline/scripts/__pycache__/
 Data-Pipeline/scripts/.ipynb_checkpoints
 Data-Pipeline/tests/__pycache__/
 
-airflow_home/logs/*
+airflow_home/logs/
 Data-Pipeline/logs/*
 
 Data-Pipeline/dags/
+
+airflow_home/airflow.db
