@@ -27,7 +27,7 @@ def get_es_client(host="http://localhost:9200", timeout=30):
         logger.warning(f"Failed to connect to Elasticsearch at {host}")
     return es
 
-def search_custom(es_client, index_name, query_string, size=10):
+def search_custom(index_name, query_string, size=10):
     """
     Executes a custom search query on the given index.
     Combines a multi_match text query with a script_score that normalizes numeric fields.
@@ -97,7 +97,7 @@ def search_custom(es_client, index_name, query_string, size=10):
     }
 
     try:
-        response = es_client.search(index=index_name, body=query_body)
+        response = get_es_client().search(index=index_name, body=query_body)
         hits = response.get("hits", {}).get("hits", [])
         logger.info(f"Search completed: {len(hits)} hits returned (took {response.get('took')} ms).")
         return hits
@@ -110,15 +110,15 @@ def main():
     Main function for standalone testing.
     Accepts a query string from the command-line or uses a default.
     """
-    if len(sys.argv) > 1:
-        query_string = " ".join(sys.argv[1:])
-    else:
-        query_string = "russia war end"
+    # if len(sys.argv) > 1:
+    #     query_string = " ".join(sys.argv[1:])
+    # else:
+    #     query_string = "russia war end"
 
     index_name = "tweets_ukraine_version_1"  # Change if needed
     es_client = get_es_client()
 
-    hits = search_custom(es_client, index_name, query_string, size=10)
+    hits = search_custom(index_name, "russia war end", size=10)
 
     logger.info("Search results:")
     for hit in hits:

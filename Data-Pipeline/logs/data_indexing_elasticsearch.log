@@ -1,0 +1,9 @@
+2025-03-05 15:22:16,983 :: INFO :: __main__ :: Successfully connected to Elasticsearch at http://localhost:9200
+2025-03-05 15:22:16,985 :: INFO :: __main__ :: Index 'tweets_ukraine_version_1' already exists. Skipping creation.
+2025-03-05 15:22:16,985 :: INFO :: __main__ :: Index 'tweets_ukraine_version_1' already exists. Skipping indexing.
+2025-03-05 16:22:48,508 :: INFO :: __main__ :: Successfully connected to Elasticsearch at http://localhost:9200
+2025-03-05 16:22:48,511 :: INFO :: __main__ :: Index 'tweets_ukraine_version_1' already exists. Skipping creation.
+2025-03-05 16:22:48,511 :: INFO :: __main__ :: Index 'tweets_ukraine_version_1' already exists. Skipping indexing.
+2025-03-05 16:48:40,175 :: INFO :: __main__ :: Successfully connected to Elasticsearch at http://localhost:9200
+2025-03-05 16:48:40,177 :: INFO :: __main__ :: Index 'tweets_ukraine_version_1' already exists. Skipping creation.
+2025-03-05 16:48:40,177 :: INFO :: __main__ :: Index 'tweets_ukraine_version_1' already exists. Skipping indexing.
