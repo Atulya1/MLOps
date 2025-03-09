@@ -12,10 +12,6 @@ Usage:
        create_index("tweets_ukraine", stopwords_list)
        index_tweets("tweets_ukraine", tweets_dict)
 
-Requires:
-    - elasticsearch7 library (pip install elasticsearch7)
-    - logging_config.get_logger for logging
-    - nltk stopwords if you use them in the "english_stop" filter
 """
 import hashlib
 from elasticsearch7 import Elasticsearch
@@ -26,11 +22,7 @@ from data_schema import get_es_mappings
 import nltk
 from nltk.corpus import stopwords
 
-nltk.download('stopwords')
-nltk_stopwords = stopwords.words('english')
-
 logger = get_logger("data_indexing_elasticsearch.log", logger_name=__name__)
-
 
 def get_es_client(host="http://localhost:9200", timeout=30):
     """
@@ -44,7 +36,8 @@ def get_es_client(host="http://localhost:9200", timeout=30):
     return es
 
 
-def create_index(es_client, index_name, stopwords):
+def create_index(es_client, index_name):
+    nltk_stopwords = stopwords.words('english')
     """
     Creates an index in Elasticsearch with custom analyzers + mappings.
     If the index already exists, logs the event, returns False, and does nothing.
@@ -63,7 +56,7 @@ def create_index(es_client, index_name, stopwords):
                 "filter": {
                     "english_stop": {
                         "type": "stop",
-                        "stopwords": stopwords
+                        "stopwords": nltk_stopwords
                     },
                 },
                 "analyzer": {
@@ -112,10 +105,10 @@ def index_tweets(es_client, index_name, tweets_dict):
     logger.info(f"Finished indexing. Total successful: {count}")
 
 
-def index_elasticsearch(es_client, tweets, index_name):
-    if create_index(es_client, index_name, nltk_stopwords):
+def index_elasticsearch(tweets, index_name):
+    if create_index(get_es_client(), index_name):
 
-        index_tweets(es_client, index_name, tweets)
+        index_tweets(get_es_client(), index_name, tweets)
         logger.info(f"Index '{index_name}'. Indexing Completed.")
 
     else:
@@ -132,9 +125,8 @@ def get_index_name(version):
 
 
 def main():
-    tweets = parse_folder("../data/version_1")
-
-    index_elasticsearch(get_es_client(), tweets, get_index_name(1))
+    tweets = parse_folder("../data/version_3")
+    index_elasticsearch(tweets, get_index_name(3))
 
 
 if __name__ == "__main__":
