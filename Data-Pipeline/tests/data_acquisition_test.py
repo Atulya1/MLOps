@@ -18,7 +18,7 @@ from data_acquisition import download_selected_files, DATASET_NAME, main
 from data_versions import FILES_TO_GET_V1
 from logging_config import get_logger
 
-logger = get_logger("test_logs/data_acquisition_test.log", logger_name=__name__)
+logger = get_logger("data_acquisition_test.log", logger_name=__name__)
 
 @pytest.fixture
 def mock_kaggle():

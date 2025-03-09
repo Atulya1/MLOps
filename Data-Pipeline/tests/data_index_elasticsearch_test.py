@@ -14,7 +14,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../logs
 from data_indexing_elasticsearch import (get_es_client,create_index,index_tweets,generate_id_from_text,index_elasticsearch)
 from logging_config import get_logger
 
-logger = get_logger("test_logs/data_indexing_elasticsearch_test.log", logger_name=__name__)
+logger = get_logger("data_indexing_elasticsearch_test.log", logger_name=__name__)
 
 @pytest.fixture(scope="module")
 def mock_es_client():
@@ -83,7 +83,7 @@ def test_create_index(mock_es):
     index_name = "test_index"
     stopwords = ["the", "is", "in"]
 
-    result = create_index(es_client, index_name, stopwords)
+    result = create_index(es_client, index_name)
 
     es_client.indices.create.assert_called_once()
     assert result is True  
@@ -103,7 +103,7 @@ def test_index_elasticsearch(mock_index_tweets, mock_create_index, mock_es, twee
 
     index_elasticsearch(tweets_dict, index_name)
 
-    mock_create_index.assert_called_once_with(es_client, index_name, mock.ANY)
+    mock_create_index.assert_called_once_with(es_client, index_name)
     mock_index_tweets.assert_called_once_with(es_client, index_name, tweets_dict)
 
 @patch('data_indexing_elasticsearch.Elasticsearch')
