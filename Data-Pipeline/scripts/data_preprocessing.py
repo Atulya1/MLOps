@@ -175,10 +175,6 @@ def main():
     results = parse_folder(default_folder)
     logger.info(f"Standalone run: {len(results)} tweets processed.")
 
-    for tw in results:
-        print(tw)
-        print(results[tw])
-        break
 
 if __name__ == "__main__":
     main()
