@@ -10,7 +10,7 @@ Data-Pipeline/scripts/.ipynb_checkpoints
 Data-Pipeline/tests/__pycache__/
 
 airflow_home/logs/
-Data-Pipeline/logs/*
+Data-Pipeline/logs/
 airflow_home/logs/dag_processor_manager/dag_processor_manager.log
 
 
