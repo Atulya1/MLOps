@@ -13,7 +13,6 @@ airflow_home/logs/
 Data-Pipeline/logs/*
 airflow_home/logs/dag_processor_manager/dag_processor_manager.log
 
-Data-Pipeline/dags/
 
 airflow_home/airflow.db
 Data-Pipeline/airflow.db
