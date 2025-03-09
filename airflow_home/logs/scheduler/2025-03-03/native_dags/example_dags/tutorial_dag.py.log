@@ -1,0 +1,84 @@
+[2025-03-02T21:13:02.968-0500] {processor.py:157} INFO - Started process (PID=81193) to work on /Users/atulkumar/Documents/MLOperations/MLOps/venv/lib/python3.11/site-packages/airflow/example_dags/tutorial_dag.py
+[2025-03-02T21:13:02.970-0500] {processor.py:826} INFO - Processing file /Users/atulkumar/Documents/MLOperations/MLOps/venv/lib/python3.11/site-packages/airflow/example_dags/tutorial_dag.py for tasks to queue
+[2025-03-02T21:13:02.970-0500] {logging_mixin.py:149} INFO - [2025-03-02T21:13:02.970-0500] {dagbag.py:541} INFO - Filling up the DagBag from /Users/atulkumar/Documents/MLOperations/MLOps/venv/lib/python3.11/site-packages/airflow/example_dags/tutorial_dag.py
+[2025-03-02T21:13:03.003-0500] {processor.py:836} INFO - DAG(s) dict_keys(['tutorial_dag']) retrieved from /Users/atulkumar/Documents/MLOperations/MLOps/venv/lib/python3.11/site-packages/airflow/example_dags/tutorial_dag.py
+[2025-03-02T21:13:03.347-0500] {logging_mixin.py:149} INFO - [2025-03-02T21:13:03.347-0500] {dag.py:2726} INFO - Sync 1 DAGs
+[2025-03-02T21:13:03.353-0500] {logging_mixin.py:149} INFO - [2025-03-02T21:13:03.353-0500] {dag.py:3486} INFO - Setting next_dagrun for tutorial_dag to None, run_after=None
+[2025-03-02T21:13:03.362-0500] {processor.py:179} INFO - Processing /Users/atulkumar/Documents/MLOperations/MLOps/venv/lib/python3.11/site-packages/airflow/example_dags/tutorial_dag.py took 0.394 seconds
+[2025-03-02T21:14:42.670-0500] {processor.py:157} INFO - Started process (PID=81338) to work on /Users/atulkumar/Documents/MLOperations/MLOps/venv/lib/python3.11/site-packages/airflow/example_dags/tutorial_dag.py
+[2025-03-02T21:14:42.673-0500] {processor.py:826} INFO - Processing file /Users/atulkumar/Documents/MLOperations/MLOps/venv/lib/python3.11/site-packages/airflow/example_dags/tutorial_dag.py for tasks to queue
+[2025-03-02T21:14:42.673-0500] {logging_mixin.py:149} INFO - [2025-03-02T21:14:42.673-0500] {dagbag.py:541} INFO - Filling up the DagBag from /Users/atulkumar/Documents/MLOperations/MLOps/venv/lib/python3.11/site-packages/airflow/example_dags/tutorial_dag.py
+[2025-03-02T21:14:42.705-0500] {processor.py:836} INFO - DAG(s) dict_keys(['tutorial_dag']) retrieved from /Users/atulkumar/Documents/MLOperations/MLOps/venv/lib/python3.11/site-packages/airflow/example_dags/tutorial_dag.py
+[2025-03-02T21:14:43.056-0500] {logging_mixin.py:149} INFO - [2025-03-02T21:14:43.056-0500] {dag.py:2726} INFO - Sync 1 DAGs
+[2025-03-02T21:14:43.063-0500] {logging_mixin.py:149} INFO - [2025-03-02T21:14:43.063-0500] {dag.py:3486} INFO - Setting next_dagrun for tutorial_dag to None, run_after=None
+[2025-03-02T21:14:43.073-0500] {processor.py:179} INFO - Processing /Users/atulkumar/Documents/MLOperations/MLOps/venv/lib/python3.11/site-packages/airflow/example_dags/tutorial_dag.py took 0.403 seconds
+[2025-03-02T21:15:45.076-0500] {processor.py:157} INFO - Started process (PID=81419) to work on /Users/atulkumar/Documents/MLOperations/MLOps/venv/lib/python3.11/site-packages/airflow/example_dags/tutorial_dag.py
+[2025-03-02T21:15:45.078-0500] {processor.py:826} INFO - Processing file /Users/atulkumar/Documents/MLOperations/MLOps/venv/lib/python3.11/site-packages/airflow/example_dags/tutorial_dag.py for tasks to queue
+[2025-03-02T21:15:45.079-0500] {logging_mixin.py:149} INFO - [2025-03-02T21:15:45.079-0500] {dagbag.py:541} INFO - Filling up the DagBag from /Users/atulkumar/Documents/MLOperations/MLOps/venv/lib/python3.11/site-packages/airflow/example_dags/tutorial_dag.py
+[2025-03-02T21:15:45.115-0500] {processor.py:836} INFO - DAG(s) dict_keys(['tutorial_dag']) retrieved from /Users/atulkumar/Documents/MLOperations/MLOps/venv/lib/python3.11/site-packages/airflow/example_dags/tutorial_dag.py
+[2025-03-02T21:15:45.454-0500] {logging_mixin.py:149} INFO - [2025-03-02T21:15:45.454-0500] {dag.py:2726} INFO - Sync 1 DAGs
+[2025-03-02T21:15:45.461-0500] {logging_mixin.py:149} INFO - [2025-03-02T21:15:45.461-0500] {dag.py:3486} INFO - Setting next_dagrun for tutorial_dag to None, run_after=None
+[2025-03-02T21:15:45.473-0500] {processor.py:179} INFO - Processing /Users/atulkumar/Documents/MLOperations/MLOps/venv/lib/python3.11/site-packages/airflow/example_dags/tutorial_dag.py took 0.396 seconds
+[2025-03-02T21:16:47.654-0500] {processor.py:157} INFO - Started process (PID=81509) to work on /Users/atulkumar/Documents/MLOperations/MLOps/venv/lib/python3.11/site-packages/airflow/example_dags/tutorial_dag.py
+[2025-03-02T21:16:47.656-0500] {processor.py:826} INFO - Processing file /Users/atulkumar/Documents/MLOperations/MLOps/venv/lib/python3.11/site-packages/airflow/example_dags/tutorial_dag.py for tasks to queue
+[2025-03-02T21:16:47.656-0500] {logging_mixin.py:149} INFO - [2025-03-02T21:16:47.656-0500] {dagbag.py:541} INFO - Filling up the DagBag from /Users/atulkumar/Documents/MLOperations/MLOps/venv/lib/python3.11/site-packages/airflow/example_dags/tutorial_dag.py
+[2025-03-02T21:16:47.688-0500] {processor.py:836} INFO - DAG(s) dict_keys(['tutorial_dag']) retrieved from /Users/atulkumar/Documents/MLOperations/MLOps/venv/lib/python3.11/site-packages/airflow/example_dags/tutorial_dag.py
+[2025-03-02T21:16:48.025-0500] {logging_mixin.py:149} INFO - [2025-03-02T21:16:48.025-0500] {dag.py:2726} INFO - Sync 1 DAGs
+[2025-03-02T21:16:48.030-0500] {logging_mixin.py:149} INFO - [2025-03-02T21:16:48.030-0500] {dag.py:3486} INFO - Setting next_dagrun for tutorial_dag to None, run_after=None
+[2025-03-02T21:16:48.039-0500] {processor.py:179} INFO - Processing /Users/atulkumar/Documents/MLOperations/MLOps/venv/lib/python3.11/site-packages/airflow/example_dags/tutorial_dag.py took 0.386 seconds
+[2025-03-02T21:17:50.872-0500] {processor.py:157} INFO - Started process (PID=81603) to work on /Users/atulkumar/Documents/MLOperations/MLOps/venv/lib/python3.11/site-packages/airflow/example_dags/tutorial_dag.py
+[2025-03-02T21:17:50.874-0500] {processor.py:826} INFO - Processing file /Users/atulkumar/Documents/MLOperations/MLOps/venv/lib/python3.11/site-packages/airflow/example_dags/tutorial_dag.py for tasks to queue
+[2025-03-02T21:17:50.874-0500] {logging_mixin.py:149} INFO - [2025-03-02T21:17:50.874-0500] {dagbag.py:541} INFO - Filling up the DagBag from /Users/atulkumar/Documents/MLOperations/MLOps/venv/lib/python3.11/site-packages/airflow/example_dags/tutorial_dag.py
+[2025-03-02T21:17:50.907-0500] {processor.py:836} INFO - DAG(s) dict_keys(['tutorial_dag']) retrieved from /Users/atulkumar/Documents/MLOperations/MLOps/venv/lib/python3.11/site-packages/airflow/example_dags/tutorial_dag.py
+[2025-03-02T21:17:51.227-0500] {logging_mixin.py:149} INFO - [2025-03-02T21:17:51.226-0500] {dag.py:2726} INFO - Sync 1 DAGs
+[2025-03-02T21:17:51.232-0500] {logging_mixin.py:149} INFO - [2025-03-02T21:17:51.232-0500] {dag.py:3486} INFO - Setting next_dagrun for tutorial_dag to None, run_after=None
+[2025-03-02T21:17:51.240-0500] {processor.py:179} INFO - Processing /Users/atulkumar/Documents/MLOperations/MLOps/venv/lib/python3.11/site-packages/airflow/example_dags/tutorial_dag.py took 0.368 seconds
+[2025-03-02T21:18:54.975-0500] {processor.py:157} INFO - Started process (PID=81689) to work on /Users/atulkumar/Documents/MLOperations/MLOps/venv/lib/python3.11/site-packages/airflow/example_dags/tutorial_dag.py
+[2025-03-02T21:18:54.977-0500] {processor.py:826} INFO - Processing file /Users/atulkumar/Documents/MLOperations/MLOps/venv/lib/python3.11/site-packages/airflow/example_dags/tutorial_dag.py for tasks to queue
+[2025-03-02T21:18:54.977-0500] {logging_mixin.py:149} INFO - [2025-03-02T21:18:54.977-0500] {dagbag.py:541} INFO - Filling up the DagBag from /Users/atulkumar/Documents/MLOperations/MLOps/venv/lib/python3.11/site-packages/airflow/example_dags/tutorial_dag.py
+[2025-03-02T21:18:55.082-0500] {processor.py:836} INFO - DAG(s) dict_keys(['tutorial_dag']) retrieved from /Users/atulkumar/Documents/MLOperations/MLOps/venv/lib/python3.11/site-packages/airflow/example_dags/tutorial_dag.py
+[2025-03-02T21:18:55.405-0500] {logging_mixin.py:149} INFO - [2025-03-02T21:18:55.405-0500] {dag.py:2726} INFO - Sync 1 DAGs
+[2025-03-02T21:18:55.411-0500] {logging_mixin.py:149} INFO - [2025-03-02T21:18:55.411-0500] {dag.py:3486} INFO - Setting next_dagrun for tutorial_dag to None, run_after=None
+[2025-03-02T21:18:55.420-0500] {processor.py:179} INFO - Processing /Users/atulkumar/Documents/MLOperations/MLOps/venv/lib/python3.11/site-packages/airflow/example_dags/tutorial_dag.py took 0.445 seconds
+[2025-03-02T21:20:01.152-0500] {processor.py:157} INFO - Started process (PID=81809) to work on /Users/atulkumar/Documents/MLOperations/MLOps/venv/lib/python3.11/site-packages/airflow/example_dags/tutorial_dag.py
+[2025-03-02T21:20:01.155-0500] {processor.py:826} INFO - Processing file /Users/atulkumar/Documents/MLOperations/MLOps/venv/lib/python3.11/site-packages/airflow/example_dags/tutorial_dag.py for tasks to queue
+[2025-03-02T21:20:01.155-0500] {logging_mixin.py:149} INFO - [2025-03-02T21:20:01.155-0500] {dagbag.py:541} INFO - Filling up the DagBag from /Users/atulkumar/Documents/MLOperations/MLOps/venv/lib/python3.11/site-packages/airflow/example_dags/tutorial_dag.py
+[2025-03-02T21:20:01.188-0500] {processor.py:836} INFO - DAG(s) dict_keys(['tutorial_dag']) retrieved from /Users/atulkumar/Documents/MLOperations/MLOps/venv/lib/python3.11/site-packages/airflow/example_dags/tutorial_dag.py
+[2025-03-02T21:20:01.540-0500] {logging_mixin.py:149} INFO - [2025-03-02T21:20:01.540-0500] {dag.py:2726} INFO - Sync 1 DAGs
+[2025-03-02T21:20:01.547-0500] {logging_mixin.py:149} INFO - [2025-03-02T21:20:01.546-0500] {dag.py:3486} INFO - Setting next_dagrun for tutorial_dag to None, run_after=None
+[2025-03-02T21:20:01.555-0500] {processor.py:179} INFO - Processing /Users/atulkumar/Documents/MLOperations/MLOps/venv/lib/python3.11/site-packages/airflow/example_dags/tutorial_dag.py took 0.403 seconds
+[2025-03-02T21:21:07.666-0500] {processor.py:157} INFO - Started process (PID=81920) to work on /Users/atulkumar/Documents/MLOperations/MLOps/venv/lib/python3.11/site-packages/airflow/example_dags/tutorial_dag.py
+[2025-03-02T21:21:07.668-0500] {processor.py:826} INFO - Processing file /Users/atulkumar/Documents/MLOperations/MLOps/venv/lib/python3.11/site-packages/airflow/example_dags/tutorial_dag.py for tasks to queue
+[2025-03-02T21:21:07.668-0500] {logging_mixin.py:149} INFO - [2025-03-02T21:21:07.668-0500] {dagbag.py:541} INFO - Filling up the DagBag from /Users/atulkumar/Documents/MLOperations/MLOps/venv/lib/python3.11/site-packages/airflow/example_dags/tutorial_dag.py
+[2025-03-02T21:21:07.698-0500] {processor.py:836} INFO - DAG(s) dict_keys(['tutorial_dag']) retrieved from /Users/atulkumar/Documents/MLOperations/MLOps/venv/lib/python3.11/site-packages/airflow/example_dags/tutorial_dag.py
+[2025-03-02T21:21:08.030-0500] {logging_mixin.py:149} INFO - [2025-03-02T21:21:08.030-0500] {dag.py:2726} INFO - Sync 1 DAGs
+[2025-03-02T21:21:08.035-0500] {logging_mixin.py:149} INFO - [2025-03-02T21:21:08.035-0500] {dag.py:3486} INFO - Setting next_dagrun for tutorial_dag to None, run_after=None
+[2025-03-02T21:21:08.043-0500] {processor.py:179} INFO - Processing /Users/atulkumar/Documents/MLOperations/MLOps/venv/lib/python3.11/site-packages/airflow/example_dags/tutorial_dag.py took 0.378 seconds
+[2025-03-02T21:22:12.227-0500] {processor.py:157} INFO - Started process (PID=82004) to work on /Users/atulkumar/Documents/MLOperations/MLOps/venv/lib/python3.11/site-packages/airflow/example_dags/tutorial_dag.py
+[2025-03-02T21:22:12.230-0500] {processor.py:826} INFO - Processing file /Users/atulkumar/Documents/MLOperations/MLOps/venv/lib/python3.11/site-packages/airflow/example_dags/tutorial_dag.py for tasks to queue
+[2025-03-02T21:22:12.231-0500] {logging_mixin.py:149} INFO - [2025-03-02T21:22:12.231-0500] {dagbag.py:541} INFO - Filling up the DagBag from /Users/atulkumar/Documents/MLOperations/MLOps/venv/lib/python3.11/site-packages/airflow/example_dags/tutorial_dag.py
+[2025-03-02T21:22:12.267-0500] {processor.py:836} INFO - DAG(s) dict_keys(['tutorial_dag']) retrieved from /Users/atulkumar/Documents/MLOperations/MLOps/venv/lib/python3.11/site-packages/airflow/example_dags/tutorial_dag.py
+[2025-03-02T21:22:12.614-0500] {logging_mixin.py:149} INFO - [2025-03-02T21:22:12.614-0500] {dag.py:2726} INFO - Sync 1 DAGs
+[2025-03-02T21:22:12.620-0500] {logging_mixin.py:149} INFO - [2025-03-02T21:22:12.620-0500] {dag.py:3486} INFO - Setting next_dagrun for tutorial_dag to None, run_after=None
+[2025-03-02T21:22:12.629-0500] {processor.py:179} INFO - Processing /Users/atulkumar/Documents/MLOperations/MLOps/venv/lib/python3.11/site-packages/airflow/example_dags/tutorial_dag.py took 0.402 seconds
+[2025-03-02T21:23:18.478-0500] {processor.py:157} INFO - Started process (PID=82091) to work on /Users/atulkumar/Documents/MLOperations/MLOps/venv/lib/python3.11/site-packages/airflow/example_dags/tutorial_dag.py
+[2025-03-02T21:23:18.480-0500] {processor.py:826} INFO - Processing file /Users/atulkumar/Documents/MLOperations/MLOps/venv/lib/python3.11/site-packages/airflow/example_dags/tutorial_dag.py for tasks to queue
+[2025-03-02T21:23:18.480-0500] {logging_mixin.py:149} INFO - [2025-03-02T21:23:18.480-0500] {dagbag.py:541} INFO - Filling up the DagBag from /Users/atulkumar/Documents/MLOperations/MLOps/venv/lib/python3.11/site-packages/airflow/example_dags/tutorial_dag.py
+[2025-03-02T21:23:18.514-0500] {processor.py:836} INFO - DAG(s) dict_keys(['tutorial_dag']) retrieved from /Users/atulkumar/Documents/MLOperations/MLOps/venv/lib/python3.11/site-packages/airflow/example_dags/tutorial_dag.py
+[2025-03-02T21:23:18.869-0500] {logging_mixin.py:149} INFO - [2025-03-02T21:23:18.869-0500] {dag.py:2726} INFO - Sync 1 DAGs
+[2025-03-02T21:23:18.876-0500] {logging_mixin.py:149} INFO - [2025-03-02T21:23:18.876-0500] {dag.py:3486} INFO - Setting next_dagrun for tutorial_dag to None, run_after=None
+[2025-03-02T21:23:18.885-0500] {processor.py:179} INFO - Processing /Users/atulkumar/Documents/MLOperations/MLOps/venv/lib/python3.11/site-packages/airflow/example_dags/tutorial_dag.py took 0.407 seconds
+[2025-03-02T21:24:25.049-0500] {processor.py:157} INFO - Started process (PID=82198) to work on /Users/atulkumar/Documents/MLOperations/MLOps/venv/lib/python3.11/site-packages/airflow/example_dags/tutorial_dag.py
+[2025-03-02T21:24:25.051-0500] {processor.py:826} INFO - Processing file /Users/atulkumar/Documents/MLOperations/MLOps/venv/lib/python3.11/site-packages/airflow/example_dags/tutorial_dag.py for tasks to queue
+[2025-03-02T21:24:25.051-0500] {logging_mixin.py:149} INFO - [2025-03-02T21:24:25.051-0500] {dagbag.py:541} INFO - Filling up the DagBag from /Users/atulkumar/Documents/MLOperations/MLOps/venv/lib/python3.11/site-packages/airflow/example_dags/tutorial_dag.py
+[2025-03-02T21:24:25.087-0500] {processor.py:836} INFO - DAG(s) dict_keys(['tutorial_dag']) retrieved from /Users/atulkumar/Documents/MLOperations/MLOps/venv/lib/python3.11/site-packages/airflow/example_dags/tutorial_dag.py
+[2025-03-02T21:24:25.449-0500] {logging_mixin.py:149} INFO - [2025-03-02T21:24:25.449-0500] {dag.py:2726} INFO - Sync 1 DAGs
+[2025-03-02T21:24:25.456-0500] {logging_mixin.py:149} INFO - [2025-03-02T21:24:25.456-0500] {dag.py:3486} INFO - Setting next_dagrun for tutorial_dag to None, run_after=None
+[2025-03-02T21:24:25.465-0500] {processor.py:179} INFO - Processing /Users/atulkumar/Documents/MLOperations/MLOps/venv/lib/python3.11/site-packages/airflow/example_dags/tutorial_dag.py took 0.416 seconds
+[2025-03-02T21:25:36.701-0500] {processor.py:157} INFO - Started process (PID=82373) to work on /Users/atulkumar/Documents/MLOperations/MLOps/venv/lib/python3.11/site-packages/airflow/example_dags/tutorial_dag.py
+[2025-03-02T21:25:36.703-0500] {processor.py:826} INFO - Processing file /Users/atulkumar/Documents/MLOperations/MLOps/venv/lib/python3.11/site-packages/airflow/example_dags/tutorial_dag.py for tasks to queue
+[2025-03-02T21:25:36.703-0500] {logging_mixin.py:149} INFO - [2025-03-02T21:25:36.703-0500] {dagbag.py:541} INFO - Filling up the DagBag from /Users/atulkumar/Documents/MLOperations/MLOps/venv/lib/python3.11/site-packages/airflow/example_dags/tutorial_dag.py
+[2025-03-02T21:25:36.750-0500] {processor.py:836} INFO - DAG(s) dict_keys(['tutorial_dag']) retrieved from /Users/atulkumar/Documents/MLOperations/MLOps/venv/lib/python3.11/site-packages/airflow/example_dags/tutorial_dag.py
+[2025-03-02T21:25:37.170-0500] {logging_mixin.py:149} INFO - [2025-03-02T21:25:37.170-0500] {dag.py:2726} INFO - Sync 1 DAGs
+[2025-03-02T21:25:37.181-0500] {logging_mixin.py:149} INFO - [2025-03-02T21:25:37.180-0500] {dag.py:3486} INFO - Setting next_dagrun for tutorial_dag to None, run_after=None
+[2025-03-02T21:25:37.193-0500] {processor.py:179} INFO - Processing /Users/atulkumar/Documents/MLOperations/MLOps/venv/lib/python3.11/site-packages/airflow/example_dags/tutorial_dag.py took 0.493 seconds

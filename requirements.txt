@@ -1,0 +1,13 @@
+apache-airflow==2.6.2
+
+kaggle==1.5.8
+
+elasticsearch7
+
+nltk
+
+pandas
+
+# dvc
+
+pytest

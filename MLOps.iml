@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="PYTHON_MODULE" version="4">
+  <component name="FacetManager">
+    <facet type="django" name="Django">
+      <configuration>
+        <option name="rootFolder" value="$MODULE_DIR$/venv/lib/python3.11/site-packages/pip/_internal/utils" />
+        <option name="settingsModule" value="settings.py" />
+        <option name="manageScript" value="manage.py" />
+        <option name="environment" value="&lt;map/&gt;" />
+        <option name="doNotUseTestRunner" value="false" />
+        <option name="trackFilePattern" value="migrations" />
+      </configuration>
+    </facet>
+  </component>
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <excludeFolder url="file://$MODULE_DIR$/airflow_home/logs/scheduler/2025-03-02" />
+      <excludeFolder url="file://$MODULE_DIR$/airflow_home/logs/scheduler/2025-03-05" />
+      <excludeFolder url="file://$MODULE_DIR$/airflow_home/logs/dag_id=data_pipeline_dag" />
+      <excludeFolder url="file://$MODULE_DIR$/airflow_home/logs/dag_id=elasticsearch_airflow_dag" />
+      <excludeFolder url="file://$MODULE_DIR$/Data-Pipeline/data/version_1" />
+      <excludeFolder url="file://$MODULE_DIR$/Data-Pipeline/data/version_2" />
+      <excludeFolder url="file://$MODULE_DIR$/Data-Pipeline/data/version_3" />
+      <excludeFolder url="file://$MODULE_DIR$/Data-Pipeline/tests/.pytest_cache/v" />
+      <excludeFolder url="file://$MODULE_DIR$/airflow_home/logs/scheduler/2025-03-06" />
+      <excludeFolder url="file://$MODULE_DIR$/airflow_home/logs/dag_id=twitter_pipeline_dag" />
+      <excludeFolder url="file://$MODULE_DIR$/Data-Pipeline/logs/dag_id=elasticsearch_airflow_dag" />
+      <excludeFolder url="file://$MODULE_DIR$/Data-Pipeline/logs/dag_id=twitter_pipeline_dag" />
+      <excludeFolder url="file://$MODULE_DIR$/Data-Pipeline/logs/dag_processor_manager" />
+      <excludeFolder url="file://$MODULE_DIR$/Data-Pipeline/logs/scheduler" />
+      <excludeFolder url="file://$MODULE_DIR$/venv/bin" />
+      <excludeFolder url="file://$MODULE_DIR$/venv/generated" />
+      <excludeFolder url="file://$MODULE_DIR$/venv/lib" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+  </component>
+  <component name="TemplatesService">
+    <option name="TEMPLATE_CONFIGURATION" value="Django" />
+  </component>
+</module>
