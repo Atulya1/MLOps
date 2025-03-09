@@ -1,0 +1,126 @@
+Custom Elasticsearch Query Documentation
+
+This query combines a standard full‐text search with additional numeric signals
+(followers, retweets, following, and total tweets) to rank tweets. The goal is to prioritize text relevance
+(60% weight) while also considering the tweet’s popularity and engagement factors
+(each contributing 10–15% of the final score).
+
+Query Structure Overview
+Multi-Match Query:
+
+Purpose: Performs a text search on both the "text" and "hashtags" fields for the queries.
+Output: Computes a base text relevance score (accessible as _score) for each document.
+
+
+Function Score Query:
+
+1. Purpose: Modifies the base text score by integrating additional numeric factors using a custom script.
+2. Key Parameters:
+    "score_mode": "sum" – Although only one function is used, this tells Elasticsearch how to combine multiple
+    functions if there were more.
+    "boost_mode": "replace" – Replaces the document’s original _score with the value computed by the script.
+3. Script Score Function (Painless Script):
+
+Language: Painless (Elasticsearch’s scripting language)
+Logic Steps:
+    a. Retrieve Base Text Score:
+        The script begins by storing the original text score in a variable textScore (i.e. double textScore = _score;).
+    b. Extract Numeric Fields:
+        The script then attempts to read numeric fields from the document:
+            followers (e.g., number of followers the user has)
+            retweetcount (number of retweets)
+            totaltweets (total tweets by the user)
+            following (number of accounts the user is following)
+        For each field, it checks if the field exists (using doc['field'].size() > 0).
+        If the field is missing or empty, it defaults to 0.0.
+        Note: The field likes and replies are set to 0.0 here because they are not used or defined in this mapping.
+    c. Normalization:
+        To prevent extremely high numeric values (like millions of followers) from overwhelming the score,
+        the script normalizes each numeric value using Math.log1p(x) (which computes log(1 + x)).
+        Each normalized value is then divided by 10.0 to further scale down its impact.
+    d. Weighted Combination:
+        The final document score is computed as a weighted sum of:
+            Text Relevance: 0.6 * textScore (60% weight)
+            Followers Factor: 0.15 * followersNorm (15% weight)
+            Retweets Factor: 0.15 * retweetsNorm (15% weight)
+            Following Factor: 0.05 * followingNorm (5% weight)
+            Total Tweets Factor: 0.05 * totaltweetsNorm (5% weight)
+        This ensures that the base text score is the most significant contributor, while each numeric signal modestly
+        influences the final ranking.
+    e. Return Final Score:
+        The computed finalScore is returned, and because "boost_mode": "replace" is specified,
+        this score becomes the document’s final relevance score.
+
+
+How It Works
+
+1. Text Matching: The multi_match query searches both the text and hashtags fields for the phrase "russia war end" and
+    computes a base score.
+2. Custom Scoring: The script calculates a custom score by combining the base text score with normalized numeric signals.
+3. Weight Distribution:
+    60% weight is given to the text relevance (_score), ensuring that the content of the tweet is the primary factor.
+    The other numeric factors (followers, retweets, following, total tweets) contribute the remaining 40% in specified
+    proportions (15%, 15%, 5%, and 5%, respectively).
+4. Final Document Score: The script returns a final score that replaces the default _score, ensuring that your weighted
+    formula governs the document ranking.
+
+Customization
+
+1. Normalization Factors: The divisor (10.0) in the normalization step can be adjusted to suit your data distribution.
+2. Weights: The percentages (0.6 for text, etc.) can be tweaked depending on how much influence you want each factor to have.
+3. Additional Fields: If needed, you can extend the script to include other numeric signals such as likes or replies.
+
+
+
+GET _search
+{
+  "size": 10,
+  "query": {
+    "function_score": {
+      "query": {
+        "multi_match": {
+          "query": "russia war end",
+          "fields": ["text", "hashtags"]
+        }
+      },
+      "score_mode": "sum",
+      "boost_mode": "replace",
+      "functions": [
+        {
+          "script_score": {
+            "script": {
+              "lang": "painless",
+              "source": """
+                double textScore = _score;
+
+                // Use size() > 0 checks. If a field doesn't exist or is empty, default to 0.0
+                double followers  = (doc['followers'].size() > 0) ? doc['followers'].value : 0.0;
+                double likes      = 0.0;
+                double retweets   = (doc['retweetcount'].size() > 0) ? doc['retweetcount'].value : 0.0;
+                double replies    = 0.0;
+                double totaltweets= (doc['totaltweets'].size() > 0) ? doc['totaltweets'].value : 0.0;
+                double following  = (doc['following'].size() > 0) ? doc['following'].value : 0.0;
+
+                // Normalize each numeric value using log1p, and then scale down
+                double followersNorm   = Math.log1p(followers) / 10.0;
+                double likesNorm       = Math.log1p(likes) / 10.0;
+                double retweetsNorm    = Math.log1p(retweets) / 10.0;
+                double repliesNorm     = Math.log1p(replies) / 10.0;
+                double followingNorm   = Math.log1p(following) / 10.0;
+                double totaltweetsNorm = Math.log1p(totaltweets) / 10.0;
+
+                // Weighted combination of scores
+                double finalScore = 0.6 * textScore
+                                  + 0.15 * followersNorm
+                                  + 0.15 * retweetsNorm
+                                  + 0.05 * followingNorm
+                                  + 0.05 * totaltweetsNorm;
+                return finalScore;
+              """
+            }
+          }
+        }
+      ]
+    }
+  }
+}
