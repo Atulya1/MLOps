@@ -1,0 +1,6 @@
+{
+    "python.analysis.extraPaths": [
+        "./Data-Pipeline/scripts",
+        "./Data-Pipeline/data"
+    ]
+}
