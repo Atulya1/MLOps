@@ -124,3 +124,84 @@ HTTP response body: b'{"code":404,"message":"Not found"}'
 2025-03-03 14:50:36,670 :: INFO :: __main__ :: Attempting to download 0930_UkraineCombinedTweetsDeduped.csv ...
 2025-03-03 14:50:39,144 :: INFO :: __main__ :: Extracting and removing ZIP: ../data/version_3/0930_UkraineCombinedTweetsDeduped.csv.zip
 2025-03-03 14:50:39,259 :: INFO :: __main__ :: Successfully downloaded 0930_UkraineCombinedTweetsDeduped.csv
+2025-03-04 00:14:06,212 :: INFO :: data_acquisition :: Attempting to download 0819_UkraineCombinedTweetsDeduped.csv ...
+2025-03-04 00:14:08,995 :: INFO :: data_acquisition :: Extracting and removing ZIP: ../data/version_1/0819_UkraineCombinedTweetsDeduped.csv.zip
+2025-03-04 00:14:09,096 :: INFO :: data_acquisition :: Successfully downloaded 0819_UkraineCombinedTweetsDeduped.csv
+2025-03-04 00:14:09,096 :: INFO :: data_acquisition :: Attempting to download 0820_UkraineCombinedTweetsDeduped.csv ...
+2025-03-04 00:14:11,555 :: INFO :: data_acquisition :: Extracting and removing ZIP: ../data/version_1/0820_UkraineCombinedTweetsDeduped.csv.zip
+2025-03-04 00:21:46,542 :: INFO :: data_acquisition :: Folder '../data/version_1' already exists and is not empty. Skipping download.
+2025-03-04 00:21:46,544 :: INFO :: data_acquisition :: Folder '../data/version_2' already exists and is not empty. Skipping download.
+2025-03-04 00:21:46,546 :: INFO :: data_acquisition :: Folder '../data/version_3' already exists and is not empty. Skipping download.
+2025-03-05 11:36:13,371 :: INFO :: data_acquisition :: Attempting to download 0819_UkraineCombinedTweetsDeduped.csv ...
+2025-03-05 11:36:16,762 :: INFO :: data_acquisition :: Extracting and removing ZIP: /tmp/test_folder/0819_UkraineCombinedTweetsDeduped.csv.zip
+2025-03-05 11:36:16,869 :: INFO :: data_acquisition :: Successfully downloaded 0819_UkraineCombinedTweetsDeduped.csv
+2025-03-05 11:36:16,869 :: INFO :: data_acquisition :: Attempting to download 0820_UkraineCombinedTweetsDeduped.csv ...
+2025-03-05 11:36:20,365 :: INFO :: data_acquisition :: Extracting and removing ZIP: /tmp/test_folder/0820_UkraineCombinedTweetsDeduped.csv.zip
+2025-03-05 11:36:20,479 :: INFO :: data_acquisition :: Successfully downloaded 0820_UkraineCombinedTweetsDeduped.csv
+2025-03-05 11:36:20,479 :: INFO :: data_acquisition :: Attempting to download 0821_UkraineCombinedTweetsDeduped.csv ...
+2025-03-05 11:36:23,646 :: INFO :: data_acquisition :: Extracting and removing ZIP: /tmp/test_folder/0821_UkraineCombinedTweetsDeduped.csv.zip
+2025-03-05 11:36:23,748 :: INFO :: data_acquisition :: Successfully downloaded 0821_UkraineCombinedTweetsDeduped.csv
+2025-03-05 11:36:23,748 :: INFO :: data_acquisition :: Attempting to download 0822_UkraineCombinedTweetsDeduped.csv ...
+2025-03-05 11:36:26,878 :: INFO :: data_acquisition :: Extracting and removing ZIP: /tmp/test_folder/0822_UkraineCombinedTweetsDeduped.csv.zip
+2025-03-05 11:36:26,961 :: INFO :: data_acquisition :: Successfully downloaded 0822_UkraineCombinedTweetsDeduped.csv
+2025-03-05 11:36:26,961 :: INFO :: data_acquisition :: Attempting to download 0823_UkraineCombinedTweetsDeduped.csv ...
+2025-03-05 11:36:30,249 :: INFO :: data_acquisition :: Extracting and removing ZIP: /tmp/test_folder/0823_UkraineCombinedTweetsDeduped.csv.zip
+2025-03-05 11:36:30,357 :: INFO :: data_acquisition :: Successfully downloaded 0823_UkraineCombinedTweetsDeduped.csv
+2025-03-05 11:36:30,357 :: INFO :: data_acquisition :: Attempting to download 0824_UkraineCombinedTweetsDeduped.csv ...
+2025-03-05 11:36:34,236 :: INFO :: data_acquisition :: Extracting and removing ZIP: /tmp/test_folder/0824_UkraineCombinedTweetsDeduped.csv.zip
+2025-03-05 11:36:34,378 :: INFO :: data_acquisition :: Successfully downloaded 0824_UkraineCombinedTweetsDeduped.csv
+2025-03-05 11:36:34,378 :: INFO :: data_acquisition :: Attempting to download 0825_UkraineCombinedTweetsDeduped.csv ...
+2025-03-05 11:36:37,883 :: INFO :: data_acquisition :: Extracting and removing ZIP: /tmp/test_folder/0825_UkraineCombinedTweetsDeduped.csv.zip
+2025-03-05 11:36:37,995 :: INFO :: data_acquisition :: Successfully downloaded 0825_UkraineCombinedTweetsDeduped.csv
+2025-03-05 11:36:37,995 :: INFO :: data_acquisition :: Attempting to download 0826_UkraineCombinedTweetsDeduped.csv ...
+2025-03-05 11:36:41,875 :: INFO :: data_acquisition :: Extracting and removing ZIP: /tmp/test_folder/0826_UkraineCombinedTweetsDeduped.csv.zip
+2025-03-05 11:36:41,993 :: INFO :: data_acquisition :: Successfully downloaded 0826_UkraineCombinedTweetsDeduped.csv
+2025-03-05 11:36:41,994 :: INFO :: data_acquisition :: Attempting to download 0827_UkraineCombinedTweetsDeduped.csv ...
+2025-03-05 11:36:45,086 :: INFO :: data_acquisition :: Extracting and removing ZIP: /tmp/test_folder/0827_UkraineCombinedTweetsDeduped.csv.zip
+2025-03-05 11:36:45,158 :: INFO :: data_acquisition :: Successfully downloaded 0827_UkraineCombinedTweetsDeduped.csv
+2025-03-05 11:36:45,158 :: INFO :: data_acquisition :: Attempting to download 0828_UkraineCombinedTweetsDeduped.csv ...
+2025-03-05 11:36:48,428 :: INFO :: data_acquisition :: Extracting and removing ZIP: /tmp/test_folder/0828_UkraineCombinedTweetsDeduped.csv.zip
+2025-03-05 11:36:48,518 :: INFO :: data_acquisition :: Successfully downloaded 0828_UkraineCombinedTweetsDeduped.csv
+2025-03-05 12:44:56,815 :: INFO :: __main__ :: Folder '../data/version_1' already exists and is not empty. Skipping download.
+2025-03-05 12:44:56,817 :: INFO :: __main__ :: Folder '../data/version_2' already exists and is not empty. Skipping download.
+2025-03-05 12:44:56,820 :: INFO :: __main__ :: Folder '../data/version_3' already exists and is not empty. Skipping download.
+2025-03-05 12:59:37,309 :: INFO :: __main__ :: Folder '../data/version_1' already exists and is not empty. Skipping download.
+2025-03-05 14:29:11,987 :: INFO :: data_acquisition :: Attempting to download 0819_UkraineCombinedTweetsDeduped.csv ...
+2025-03-05 14:29:15,240 :: INFO :: data_acquisition :: Extracting and removing ZIP: ../data/version_1/0819_UkraineCombinedTweetsDeduped.csv.zip
+2025-03-05 14:29:15,380 :: INFO :: data_acquisition :: Successfully downloaded 0819_UkraineCombinedTweetsDeduped.csv
+2025-03-05 14:29:15,381 :: INFO :: data_acquisition :: Attempting to download 0820_UkraineCombinedTweetsDeduped.csv ...
+2025-03-05 14:29:18,399 :: INFO :: data_acquisition :: Extracting and removing ZIP: ../data/version_1/0820_UkraineCombinedTweetsDeduped.csv.zip
+2025-03-05 14:29:18,549 :: INFO :: data_acquisition :: Successfully downloaded 0820_UkraineCombinedTweetsDeduped.csv
+2025-03-05 14:29:18,550 :: INFO :: data_acquisition :: Attempting to download 0821_UkraineCombinedTweetsDeduped.csv ...
+2025-03-05 14:29:21,545 :: INFO :: data_acquisition :: Extracting and removing ZIP: ../data/version_1/0821_UkraineCombinedTweetsDeduped.csv.zip
+2025-03-05 14:29:21,644 :: INFO :: data_acquisition :: Successfully downloaded 0821_UkraineCombinedTweetsDeduped.csv
+2025-03-05 14:29:21,644 :: INFO :: data_acquisition :: Attempting to download 0822_UkraineCombinedTweetsDeduped.csv ...
+2025-03-05 14:29:24,529 :: INFO :: data_acquisition :: Extracting and removing ZIP: ../data/version_1/0822_UkraineCombinedTweetsDeduped.csv.zip
+2025-03-05 14:29:24,621 :: INFO :: data_acquisition :: Successfully downloaded 0822_UkraineCombinedTweetsDeduped.csv
+2025-03-05 14:29:24,622 :: INFO :: data_acquisition :: Attempting to download 0823_UkraineCombinedTweetsDeduped.csv ...
+2025-03-05 14:29:27,669 :: INFO :: data_acquisition :: Extracting and removing ZIP: ../data/version_1/0823_UkraineCombinedTweetsDeduped.csv.zip
+2025-03-05 14:29:27,795 :: INFO :: data_acquisition :: Successfully downloaded 0823_UkraineCombinedTweetsDeduped.csv
+2025-03-05 14:29:27,796 :: INFO :: data_acquisition :: Attempting to download 0824_UkraineCombinedTweetsDeduped.csv ...
+2025-03-05 14:29:31,255 :: INFO :: data_acquisition :: Extracting and removing ZIP: ../data/version_1/0824_UkraineCombinedTweetsDeduped.csv.zip
+2025-03-05 14:29:31,442 :: INFO :: data_acquisition :: Successfully downloaded 0824_UkraineCombinedTweetsDeduped.csv
+2025-03-05 14:29:31,443 :: INFO :: data_acquisition :: Attempting to download 0825_UkraineCombinedTweetsDeduped.csv ...
+2025-03-05 14:29:34,835 :: INFO :: data_acquisition :: Extracting and removing ZIP: ../data/version_1/0825_UkraineCombinedTweetsDeduped.csv.zip
+2025-03-05 14:29:34,962 :: INFO :: data_acquisition :: Successfully downloaded 0825_UkraineCombinedTweetsDeduped.csv
+2025-03-05 14:29:34,963 :: INFO :: data_acquisition :: Attempting to download 0826_UkraineCombinedTweetsDeduped.csv ...
+2025-03-05 14:29:37,772 :: INFO :: data_acquisition :: Extracting and removing ZIP: ../data/version_1/0826_UkraineCombinedTweetsDeduped.csv.zip
+2025-03-05 14:29:37,879 :: INFO :: data_acquisition :: Successfully downloaded 0826_UkraineCombinedTweetsDeduped.csv
+2025-03-05 14:29:37,880 :: INFO :: data_acquisition :: Attempting to download 0827_UkraineCombinedTweetsDeduped.csv ...
+2025-03-05 14:29:40,753 :: INFO :: data_acquisition :: Extracting and removing ZIP: ../data/version_1/0827_UkraineCombinedTweetsDeduped.csv.zip
+2025-03-05 14:29:40,827 :: INFO :: data_acquisition :: Successfully downloaded 0827_UkraineCombinedTweetsDeduped.csv
+2025-03-05 14:29:40,828 :: INFO :: data_acquisition :: Attempting to download 0828_UkraineCombinedTweetsDeduped.csv ...
+2025-03-05 14:29:43,584 :: INFO :: data_acquisition :: Extracting and removing ZIP: ../data/version_1/0828_UkraineCombinedTweetsDeduped.csv.zip
+2025-03-05 14:29:43,666 :: INFO :: data_acquisition :: Successfully downloaded 0828_UkraineCombinedTweetsDeduped.csv
+2025-03-05 15:01:26,159 :: INFO :: __main__ :: Folder '../data/version_1' already exists and is not empty. Skipping download.
+2025-03-05 15:16:21,340 :: INFO :: data_acquisition :: Folder '/Users/atulkumar/Documents/MLOperations/MLOps/Data-Pipeline/data' already exists and is not empty. Skipping download.
+2025-03-05 16:16:54,538 :: INFO :: data_acquisition :: Folder '/Users/atulkumar/Documents/MLOperations/MLOps/Data-Pipeline/data' already exists and is not empty. Skipping download.
+2025-03-05 16:34:32,171 :: INFO :: data_acquisition :: Folder '/Users/atulkumar/Documents/MLOperations/MLOps/Data-Pipeline/data' already exists and is not empty. Skipping download.
+2025-03-05 16:50:09,093 :: INFO :: data_acquisition :: Folder '/Users/atulkumar/Documents/MLOperations/MLOps/Data-Pipeline/data' already exists and is not empty. Skipping download.
+2025-03-05 16:53:06,683 :: INFO :: data_acquisition :: Folder '/Users/atulkumar/Documents/MLOperations/MLOps/Data-Pipeline/data' already exists and is not empty. Skipping download.
+2025-03-05 16:58:37,523 :: INFO :: data_acquisition :: Folder '/Users/atulkumar/Documents/MLOperations/MLOps/Data-Pipeline/data' already exists and is not empty. Skipping download.
+2025-03-05 17:04:59,329 :: INFO :: data_acquisition :: Folder '/Users/atulkumar/Documents/MLOperations/MLOps/Data-Pipeline/data' already exists and is not empty. Skipping download.
+2025-03-05 17:09:36,403 :: INFO :: data_acquisition :: Folder '/Users/atulkumar/Documents/MLOperations/MLOps/Data-Pipeline/data' already exists and is not empty. Skipping download.
