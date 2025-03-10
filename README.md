@@ -235,3 +235,9 @@ MIT License - See LICENSE file for details
 
 ## Contact
 For questions or collaboration, please open an issue or contact the developers.
+
+## Pipeline Graph and Gantt Chart
+![image](https://github.com/user-attachments/assets/5aed4a13-abbd-4e76-a598-b05787edb701)
+![image](https://github.com/user-attachments/assets/8fb06d26-4e57-4d1d-8473-33fbd90714db)
+
+
