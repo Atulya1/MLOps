@@ -20,6 +20,8 @@ Data-Pipeline/
 ├── tests/             # Test suite
 │   ├── data_acquisition_tests.py
 │   └── data_preprocessing_tests.py
+│   ├── data_index_elasticsearch_tests.py
+│   └── es_query_tests.py
 ├── logs/             # Application logs
 └── dags/             # Airflow DAGs
 ```
@@ -34,8 +36,11 @@ pip install -r requirements.txt
 ```
 
 2. **Kaggle Authentication**
-- Create a Kaggle account and download your API token (kaggle.json)
-- Place it in ~/.kaggle/ or set environment variables:
+- Make sure Kaggle is installed in your environment
+- Create an API token on your Kaggle account (under "Account" > "API" > "Create New API Token"). 
+- Place the downloaded kaggle.json file in the correct location 
+- (usually ~/.kaggle/kaggle.json on Unix or C:\Users\<User>\.kaggle\kaggle.json on Windows) or 
+- Set the appropriate environment variables.
 ```bash
 export KAGGLE_USERNAME=username
 export KAGGLE_KEY=api_key
@@ -215,8 +220,9 @@ Test Coverage Requirements:
 
 ## Tweet Ranking Algorithm & Score System
 
-Developed a new ranking algorithm for tweets, retrieving indexed tweets from Elasticsearch. The ranking score is based on multiple factors including engagement metrics, sentiment analysis, and relevance to key topics. For more details, refer to the MLOps/Data-Pipeline/scripts
-/es_query.py
+Developed a new ranking algorithm for tweets, retrieving indexed tweets from Elasticsearch. 
+The ranking score is based on multiple factors including engagement metrics, sentiment analysis, 
+and relevance to key topics. For more details, refer - [Tweet Retrieving Algorithm](./docs/tweet_ranking.txt)
 
 ## Contributing
 1. Fork the repository
