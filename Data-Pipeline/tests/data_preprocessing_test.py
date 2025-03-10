@@ -12,7 +12,7 @@ from data_preprocessing import (
 )
 from logging_config import get_logger
 
-logger = get_logger("test_logs/test_data_preprocessing.log", logger_name=__name__)
+logger = get_logger("test_data_preprocessing.log", logger_name=__name__)
 
 @pytest.fixture
 def sample_tweet_row():

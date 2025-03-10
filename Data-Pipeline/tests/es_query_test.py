@@ -11,7 +11,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../logs
 from es_query import get_es_client, search_custom
 from logging_config import get_logger
 
-logger = get_logger("test_logs/es_query_test.log", logger_name=__name__)
+logger = get_logger("es_query_test.log", logger_name=__name__)
 
 @pytest.fixture
 def mock_es_client():
@@ -64,7 +64,7 @@ def test_search_custom(mock_get_es, mock_es_client, sample_hits, caplog):
     query_string = "test query"
 
     with caplog.at_level(logging.INFO):
-        results = search_custom(mock_es_client, index_name, query_string, size=10)
+        results = search_custom(index_name, query_string)
 
     assert len(results) == 2 
     mock_es_client.search.assert_called_once()
