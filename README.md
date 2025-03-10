@@ -10,6 +10,7 @@ Data-Pipeline/
 │   ├── version_1/     # First dataset version
 │   ├── version_2/     # Second dataset version
 │   └── version_3/     # Third dataset version
+|   └── data_versions.py # Manages dataset versions
 ├── scripts/           # Core processing scripts
 │   ├── data_acquisition.py    # Downloads data from Kaggle
 │   ├── data_preprocessing.py  # Cleans and processes tweets
@@ -41,9 +42,21 @@ export KAGGLE_KEY=api_key
 ```
 
 3. **Airflow Configuration**
-- Set AIRFLOW_HOME environment variable
+- Set home variable using command: export AIRFLOW_HOME="path to DataPipeline on local"
+- Verify airflow.cfg file and change path to dags_folder,base_log_folder,plugins_folder,sql_alchemy_conn,dag_processor_manager_log_location,child_process_log_directory according to your local path
+- check environment is activated using command source venv/bin/activate
+- Python version should be <= 3.10 to work with airflow
 - Initialize the database: `airflow db init`
-- Create admin user: `airflow users create`
+- Create admin user using following command:
+airflow users create \
+  --username admin \
+  --firstname First \
+  --lastname Last \
+  --email admin@example.com \
+  --role Admin \
+  --password admin_password
+- airflow scheduler
+- airflow webserver
 
 ## Core Components
 
@@ -200,6 +213,11 @@ Test Coverage Requirements:
    - Auto-scaling
    - Performance optimization
 
+## Tweet Ranking Algorithm & Score System
+
+Developed a new ranking algorithm for tweets, retrieving indexed tweets from Elasticsearch. The ranking score is based on multiple factors including engagement metrics, sentiment analysis, and relevance to key topics. For more details, refer to the MLOps/Data-Pipeline/scripts
+/es_query.py
+
 ## Contributing
 1. Fork the repository
 2. Create feature branch
@@ -210,4 +228,4 @@ Test Coverage Requirements:
 MIT License - See LICENSE file for details
 
 ## Contact
-For questions or collaboration, please open an issue or contact the maintainers.
+For questions or collaboration, please open an issue or contact the developers.
