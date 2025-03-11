@@ -22,6 +22,7 @@ Function Score Query:
 3. Script Score Function (Painless Script):
 
 Language: Painless (Elasticsearch’s scripting language)
+
 Logic Steps:
     a. Retrieve Base Text Score:
         The script begins by storing the original text score in a variable textScore (i.e. double textScore = _score;).
@@ -52,7 +53,7 @@ Logic Steps:
         this score becomes the document’s final relevance score.
 
 
-How It Works
+How It Works:
 
 1. Text Matching: The multi_match query searches both the text and hashtags fields for the phrase "russia war end" and
     computes a base score.
@@ -64,7 +65,7 @@ How It Works
 4. Final Document Score: The script returns a final score that replaces the default _score, ensuring that your weighted
     formula governs the document ranking.
 
-Customization
+Customization:
 
 1. Normalization Factors: The divisor (10.0) in the normalization step can be adjusted to suit your data distribution.
 2. Weights: The percentages (0.6 for text, etc.) can be tweaked depending on how much influence you want each factor to have.
