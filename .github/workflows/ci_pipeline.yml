@@ -1,0 +1,124 @@
+name: CI Pipeline (Airflow-Like Steps)
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build-test-index-query:
+    runs-on: ubuntu-latest
+
+    # Optional: spin up Elasticsearch if you need to index & query data in CI
+    services:
+      elasticsearch:
+        image: docker.elastic.co/elasticsearch/elasticsearch:8.6.2
+        ports:
+          - 9200:9200
+        env:
+          discovery.type: single-node
+        options: >-
+          --health-cmd="curl -f http://localhost:9200 || exit 1"
+          --health-interval=5s
+          --health-timeout=5s
+          --health-retries=20
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Configure Kaggle Credentials
+        # Only if your data acquisition needs Kaggle
+        run: |
+          mkdir -p ~/.kaggle
+          echo "{\"username\":\"$KAGGLE_USERNAME\",\"key\":\"$KAGGLE_KEY\"}" > ~/.kaggle/kaggle.json
+          chmod 600 ~/.kaggle/kaggle.json
+        env:
+          KAGGLE_USERNAME: ${{ secrets.KAGGLE_USERNAME }}
+          KAGGLE_KEY: ${{ secrets.KAGGLE_KEY }}
+
+      # ─────────────────────────────
+      # (1) DATA ACQUISITION
+      # ─────────────────────────────
+      - name: Data Acquisition
+        run: |
+          python -c "
+  import os
+  from scripts.data_acquisition import download_selected_files
+  from scripts.data_versions import get_data_version
+  
+  DATA_BASE_DIR = os.path.abspath('data')
+  download_selected_files(get_data_version(4), DATA_BASE_DIR)
+  print('Data Acquisition Successful')
+  "
+
+      # ─────────────────────────────
+      # (2) DATA PREPROCESSING
+      # ─────────────────────────────
+      - name: Data Preprocessing
+        run: |
+          python -c "
+  import os
+  from scripts.data_preprocessing import parse_folder
+  
+  FILES_GITHUB_PIPELINE_TEST_VERSION = os.path.abspath('data/github_test_version')
+  data_dict = parse_folder(FILES_GITHUB_PIPELINE_TEST_VERSION)
+print(f'Length of the dictionary: {len(data_dict)}')
+print('Data Preprocessing Successful')
+  "
+
+      # ─────────────────────────────
+      # (3) DATA INDEXING
+      # ─────────────────────────────
+      - name: Data Indexing
+        run: |
+          python -c "
+  import os
+  from scripts.data_indexing_elasticsearch import get_index_name, index_elasticsearch
+  from scripts.data_preprocessing import parse_folder
+                                    
+  FILES_GITHUB_PIPELINE_TEST_VERSION = os.path.abspath('data/github_test_version')
+  data_dict = parse_folder(FILES_GITHUB_PIPELINE_TEST_VERSION)
+  print(f'Parsed {len(data_dict)} records')
+
+try:
+  index_name = get_index_name(4)
+  print(f'Indexing data to {index_name}')
+  index_elasticsearch(data_dict, index_name)
+  print('Data Indexing Successful')
+except Exception as e:
+  print(f'Error during indexing: {str(e)}')
+    raise
+"
+
+      # ─────────────────────────────
+      # (4) QUERY ELASTICSEARCH
+      # ─────────────────────────────
+      - name: Query Elasticsearch
+        run: |
+          python -c "
+from scripts.es_query import search_custom
+from scripts.data_indexing_elasticsearch import get_index_name
+
+query = 'russia war end'
+hits = search_custom(get_index_name(4), query, size=10)
+print('Search results:')
+for hit in hits:
+  tweet_id = hit.get('_id', 'unknown')
+  score = hit.get('_score', 0)
+  text = hit.get('_source', {}).get('text', '')
+  print(f'Tweet ID: {tweet_id}, Score: {score}, Text: {text}')
+  print('-'*40)
+print('Data Querying Successful')
+"

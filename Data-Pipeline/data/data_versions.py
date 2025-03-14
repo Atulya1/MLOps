@@ -49,11 +49,16 @@ FILES_TO_GET_V3 = [
     "0930_UkraineCombinedTweetsDeduped.csv"
 ]
 
+FILES_GITHUB_PIPELINE_TEST_VERSION = [
+    "0914_UkraineCombinedTweetsDeduped.csv"
+]
+
 def get_data_version(version):
     version_map = {
         1: FILES_TO_GET_V1,
         2: FILES_TO_GET_V2,
         3: FILES_TO_GET_V3,
+        4: FILES_GITHUB_PIPELINE_TEST_VERSION
     }
     return version_map.get(version, False)
 
@@ -62,5 +67,6 @@ def get_data_version_name(version):
         1: "../data/version_1",
         2: "../data/version_2",
         3: "../data/version_3",
+        4: "../data/github_test_version"
     }
     return version_map.get(version, False)

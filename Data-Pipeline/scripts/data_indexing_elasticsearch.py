@@ -120,6 +120,7 @@ def get_index_name(version):
         1: "tweets_ukraine_version_1",
         2: "tweets_ukraine_version_2",
         3: "tweets_ukraine_version_3",
+        4: "tweets_ukraine_github_pipeline_version"
     }
     return version_map.get(version, False)
 
