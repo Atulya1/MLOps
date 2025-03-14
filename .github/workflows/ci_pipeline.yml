@@ -11,23 +11,20 @@ jobs:
     runs-on: ubuntu-latest
     services:
       elasticsearch:
-        image: 'docker.elastic.co/elasticsearch/elasticsearch:7.17.0-amd64'
+        image: docker.elastic.co/elasticsearch/elasticsearch:7.17.0-amd64
         ports:
-          - '9200:9200'
-          - '9300:9300'
-        container_name: es_container
-        environment:
-          - discovery.type=single-node
+          - 9200:9200
+          - 9300:9300
+        env:
+          discovery.type: single-node
         volumes:
-          - 'es-data:/usr/share/elasticsearch/data'
-          - './stoplist.txt:/usr/share/elasticsearch/config/my_stoplist.txt'
-          - >-
-            ./elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+          - es-data:/usr/share/elasticsearch/data
+          - ./stoplist.txt:/usr/share/elasticsearch/config/my_stoplist.txt
+          - ./elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
         networks:
           - mynet
         options: >-
-          --health-cmd="curl -fsS -o /dev/null
-          http://localhost:9200/_cluster/health?wait_for_status=yellow&timeout=10s"
+          --health-cmd="curl -fsS -o /dev/null http://localhost:9200/_cluster/health?wait_for_status=yellow&timeout=10s"
           --health-interval=5s --health-timeout=10s --health-retries=20
     steps:
       - name: Check out code
