@@ -37,13 +37,13 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
       - name: Configure Kaggle Credentials
-        run: >
+        run: |
           mkdir -p ~/.kaggle
           echo "{\"username\":\"$KAGGLE_USERNAME\",\"key\":\"$KAGGLE_KEY\"}" > ~/.kaggle/kaggle.json
           chmod 600 ~/.kaggle/kaggle.json
         env:
-          KAGGLE_USERNAME: '${{ secrets.KAGGLE_USERNAME }}'
-          KAGGLE_KEY: '${{ secrets.KAGGLE_KEY }}'
+          KAGGLE_USERNAME: ${{ secrets.KAGGLE_USERNAME }}
+          KAGGLE_KEY: ${{ secrets.KAGGLE_KEY }}
       - name: Data Acquisition
         run: |
           python -c "
