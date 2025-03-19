@@ -6,6 +6,8 @@ elasticsearch7
 
 nltk
 
+pip install nltk
+
 pandas
 
 # dvc

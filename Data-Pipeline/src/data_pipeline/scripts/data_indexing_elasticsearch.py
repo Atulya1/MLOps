@@ -20,7 +20,11 @@ from .data_preprocessing import parse_folder
 from .data_schema import get_es_mappings
 
 import nltk
-from nltk.corpus import stopwords
+try:
+    from nltk.corpus import stopwords
+except LookupError:
+    nltk.download('stopwords')
+    from nltk.corpus import stopwords
 
 logger = get_logger("data_indexing_elasticsearch.log", logger_name=__name__)
 

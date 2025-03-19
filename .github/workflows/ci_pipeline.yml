@@ -41,6 +41,8 @@ jobs:
           pip install -r requirements.txt
       - name: Install Data‑Pipeline package
         run: pip install -e ./Data-Pipeline
+      - name: Download NLTK data
+        run: python -m nltk.downloader stopwords
       - name: Configure Kaggle Credentials
         run: >
           mkdir -p ~/.kaggle
