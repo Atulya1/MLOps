@@ -76,7 +76,7 @@ jobs:
           import os
           from data_pipeline.scripts.data_preprocessing import parse_folder
 
-          folder = os.path.abspath('data/github_test_version')
+          folder = '../data/github_test_version'
           data_dict = parse_folder(folder)
           print(f'Length of the dictionary: {len(data_dict)}')
           print('Data Preprocessing Successful')
@@ -92,7 +92,7 @@ jobs:
           from data_pipeline.scripts.data_preprocessing import parse_folder
 
 
-          folder = os.path.abspath('data/github_test_version')
+          folder = '../data/github_test_version'
 
           data_dict = parse_folder(folder)
 
