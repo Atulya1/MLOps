@@ -15,14 +15,14 @@ Usage:
 import os
 import sys
 from kaggle.api.kaggle_api_extended import KaggleApi
-from logging_config import get_logger
+from .logging_config import get_logger
 
 logger = get_logger("data_acquisition.log", logger_name=__name__)
 
 # Adding scripts folder to system path
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../data')))
 
-from data_versions import get_data_version, get_data_version_name
+from ..data.data_versions import get_data_version, get_data_version_name
 
 # Use the dataset slug only. The --page-size is not valid here.
 DATASET_NAME = "bwandowando/ukraine-russian-crisis-twitter-dataset-1-2-m-rows"

@@ -15,9 +15,9 @@ Usage:
 """
 import hashlib
 from elasticsearch7 import Elasticsearch
-from logging_config import get_logger
-from data_preprocessing import parse_folder
-from data_schema import get_es_mappings
+from .logging_config import get_logger
+from .data_preprocessing import parse_folder
+from .data_schema import get_es_mappings
 
 import nltk
 from nltk.corpus import stopwords
