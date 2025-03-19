@@ -4,10 +4,12 @@ name: CI Pipeline (Airflow‑Like Steps)
     branches:
       - main
       - assignment_3_main
+      - rag
   pull_request:
     branches:
       - main
       - assignment_3_main
+      - rag
 jobs:
   build-test-index-query:
     runs-on: ubuntu-latest
@@ -106,6 +108,19 @@ jobs:
 
           EOF
       - name: Query Elasticsearch
+        run: |
+          python - <<EOF
+          from data_pipeline.scripts.es_query import search_custom
+          from data_pipeline.scripts.data_indexing_elasticsearch import get_index_name
+
+          hits = search_custom(get_index_name(4), 'russia war end', size=10)
+          print('Search results:')
+          for hit in hits:
+            print(f"{hit['_id']} | score={hit['_score']} | {hit['_source']['text']}")
+          print('Data Querying Successful')
+          EOF
+
+      - name: RAG Output
         run: |
           python - <<EOF
           from data_pipeline.scripts.es_query import search_custom
