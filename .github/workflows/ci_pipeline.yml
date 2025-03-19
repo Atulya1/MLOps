@@ -61,8 +61,8 @@ jobs:
         run: |
           python - <<EOF
           import os
-          from scripts.data_acquisition import download_selected_files
-          from data.data_versions import get_data_version, get_data_version_name
+          from data_pipeline.scripts.data_acquisition import download_selected_files
+          from data_pipeline.data.data_versions import get_data_version, get_data_version_name
 
           DATA_BASE_DIR = os.path.abspath('data')
           download_selected_files(get_data_version(4), get_data_version_name(4))
@@ -72,7 +72,7 @@ jobs:
         run: |
           python - <<EOF
           import os
-          from scripts.data_preprocessing import parse_folder
+          from data_pipeline.scripts.data_preprocessing import parse_folder
 
           folder = os.path.abspath('data/github_test_version')
           data_dict = parse_folder(folder)
@@ -85,10 +85,9 @@ jobs:
 
           import os
 
-          from scripts.data_indexing_elasticsearch import get_index_name,
-          index_elasticsearch
+          from data_pipeline.scripts.data_indexing_elasticsearch import get_index_name, index_elasticsearch
 
-          from scripts.data_preprocessing import parse_folder
+          from data_pipeline.scripts.data_preprocessing import parse_folder
 
 
           folder = os.path.abspath('data/github_test_version')
@@ -107,8 +106,8 @@ jobs:
       - name: Query Elasticsearch
         run: |
           python - <<EOF
-          from scripts.es_query import search_custom
-          from scripts.data_indexing_elasticsearch import get_index_name
+          from data_pipeline.scripts.es_query import search_custom
+          from data_pipeline.scripts.data_indexing_elasticsearch import get_index_name
 
           hits = search_custom(get_index_name(4), 'russia war end', size=10)
           print('Search results:')

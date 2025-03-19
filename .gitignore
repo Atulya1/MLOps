@@ -5,12 +5,20 @@ Data-Pipeline/data/version_1
 Data-Pipeline/data/version_2
 Data-Pipeline/data/version_3
 
+Data-Pipeline/src/data_pipeline/data/version_1
+Data-Pipeline/src/data_pipeline/data/version_2
+Data-Pipeline/src/data_pipeline/data/version_3
+
 Data-Pipeline/scripts/__pycache__/
 Data-Pipeline/scripts/.ipynb_checkpoints
+Data-Pipeline/src/data_pipeline/scripts/.ipynb_checkpoints
 Data-Pipeline/tests/__pycache__/
+Data-Pipeline/src/data_pipeline/tests/.pytest_cache/
 
 airflow_home/logs/
 Data-Pipeline/logs/
+Data-Pipeline/src/data_pipeline/logs/
+
 airflow_home/logs/dag_processor_manager/dag_processor_manager.log
 
 

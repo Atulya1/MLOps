@@ -77,7 +77,7 @@ def main():
     # download_selected_files(FILES_TO_GET_V1, "../data/version_1")
     # download_selected_files(FILES_TO_GET_V2, "../data/version_2")
     # download_selected_files(FILES_TO_GET_V3, "../data/version_3")
-    download_selected_files(get_data_version(1), "../data/version_1")
+    # download_selected_files(get_data_version(1), "../data/version_1")
     download_selected_files(get_data_version(4), get_data_version_name(4))
 
 if __name__ == "__main__":
