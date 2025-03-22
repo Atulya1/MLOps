@@ -12,7 +12,7 @@ If no query is provided, a default query ("russia war end") is used.
 
 import sys
 from elasticsearch7 import Elasticsearch
-from .logging_config import get_logger
+from logging_config import get_logger
 
 logger = get_logger("es_query_custom.log", logger_name=__name__)
 
@@ -100,7 +100,7 @@ def search_custom(index_name, query_string, size=10):
         response = get_es_client().search(index=index_name, body=query_body)
         hits = response.get("hits", {}).get("hits", [])
         logger.info(f"Search completed: {len(hits)} hits returned (took {response.get('took')} ms).")
-        return hits
+        return response
     except Exception as e:
         logger.error(f"Error during search: {e}")
         return []
