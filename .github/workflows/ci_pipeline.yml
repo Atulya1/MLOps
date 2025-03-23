@@ -2,13 +2,11 @@ name: CI Pipeline (Airflow‑Like Steps)
 'on':
   push:
     branches:
-      - main
       - assignment_3_main
       - rag
       - rag_test
   pull_request:
     branches:
-      - main
       - assignment_3_main
       - rag
       - rag_test
@@ -127,9 +125,10 @@ jobs:
         run: |
           python - <<EOF
           from data_pipeline.scripts.rag.py import get_results, get_top_tweets
+          from data_pipeline.scripts.data_indexing_elasticsearch import get_index_name
           
           question = "Who is winning the Russia-Ukraine war?"
-          result = get_results(question, 1.5, 10)
+          result = get_results(question, get_index_name(4), 1.5, 10)
           print(result)
           top_tweets = get_top_tweets(question)
           print(top_tweets)

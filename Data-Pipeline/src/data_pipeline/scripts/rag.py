@@ -215,8 +215,8 @@ def find_sentiment_analysis(tweets):
     return tweet_sentiments
 
 
-def get_results(question, similarity_threshold, k):
-    response = search_custom(get_index_name(3), question, size=100)
+def get_results(question, es_index_name, similarity_threshold, k):
+    response = search_custom(es_index_name, question, size=100)
 
     tweet_texts = []
     for hit in response["hits"]["hits"]:
@@ -267,7 +267,7 @@ def main():
     question = "Who is winning the Russia-Ukraine war?"
     # question = "Will apple release iphone 200?"
 
-    result = get_results(question, 1.5, 10)
+    result = get_results(question, get_index_name(3), 1.5, 10)
     logger.info(result)
 
     # Extract tweet texts and append additional relevant fields
