@@ -1,56 +1,64 @@
 import os
-import docx2txt
-import logging
 
-from typing import Optional
-from fastapi import FastAPI
-from pydantic import BaseModel
-
-from dotenv import load_dotenv
-
-# If you're still on langchain_community, keep those imports;
-# otherwise, if you installed langchain-openai, update accordingly.
+# Import LangChain components
 from langchain_community.embeddings import OpenAIEmbeddings
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_community.vectorstores import FAISS
 from langchain.chains import RetrievalQA
 from langchain_community.chat_models import ChatOpenAI
-
+from dotenv import load_dotenv
 load_dotenv()
 
-# Configure logging
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
 
-app = FastAPI()
+from .es_query import search_custom
+from .data_indexing_elasticsearch import get_index_name
+
+import ssl
+import nltk
+
+try:
+    _create_unverified_https_context = ssl._create_unverified_context
+except AttributeError:
+    # Legacy Python that doesn't verify HTTPS certificates by default
+    pass
+else:
+    ssl._create_default_https_context = _create_unverified_https_context
+
+nltk.download('vader_lexicon')
+
+from nltk.sentiment.vader import SentimentIntensityAnalyzer
+
+sia = SentimentIntensityAnalyzer()
+
+# Configure logging
+from .logging_config import get_logger
+
+logger = get_logger("rag.log", logger_name=__name__)
+
 
 # --- Configuration ---
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-if not OPENAI_API_KEY:
-    raise ValueError("OPENAI_API_KEY not set. Please set it in .env or as an environment variable.")
 
-DOC_PATH = os.path.join("docs", "knowledge_source.docx")
+open_api_key = os.getenv("OPENAI_API_KEY")
 EMBEDDINGS_FOLDER = os.path.join("embeddings", "faiss_index")
 
-# Global references
+# Global references for the vectorstore and retrieval chain
 retrieval_chain = None
 vectorstore = None
 
 # For FAISS (default L2 distance), smaller => more similar
-SIMILARITY_THRESHOLD = 1.5
+SIMILARITY_THRESHOLD = 3
 
-class QueryRequest(BaseModel):
-    question: str
 
-@app.on_event("startup")
-def load_or_create_vectorstore():
+def load_or_create_vectorstore(data_source: str, temperature):
     """
-    On startup, load or create the vectorstore from the docx knowledge_source.
+    Load or create the vectorstore from the provided data source.
+    In this case, the data source is the output of an Elasticsearch query,
+    containing tweets that serve as our knowledge base.
     """
     global retrieval_chain, vectorstore
 
-    logger.info("Loading docx file for knowledge source...")
-    text = docx2txt.process(DOC_PATH)
+    logger.info("Using provided tweet data as the knowledge source...")
+    text = data_source  # In this example, data_source is a multiline string of tweets
 
     logger.info("Splitting text into chunks...")
     text_splitter = RecursiveCharacterTextSplitter(
@@ -61,7 +69,7 @@ def load_or_create_vectorstore():
     logger.info(f"Number of chunks created: {len(docs)}")
 
     logger.info("Initializing embeddings...")
-    embeddings = OpenAIEmbeddings(openai_api_key=OPENAI_API_KEY)
+    embeddings = OpenAIEmbeddings(openai_api_key=open_api_key)
 
     logger.info("Checking for existing FAISS index...")
     faiss_index_file = os.path.join(EMBEDDINGS_FOLDER, "index.faiss")
@@ -83,10 +91,11 @@ def load_or_create_vectorstore():
 
     logger.info("Setting up retrieval chain...")
     domain_llm = ChatOpenAI(
-        openai_api_key=OPENAI_API_KEY,
-        temperature=0.0,
+        openai_api_key=open_api_key,
+        temperature=temperature,
         model_name="gpt-4o-mini"  # or "gpt-4"/"gpt-3.5-turbo"
     )
+    logger.info(f"Temperature: {temperature}")
 
     retrieval_chain = RetrievalQA.from_chain_type(
         llm=domain_llm,
@@ -94,93 +103,181 @@ def load_or_create_vectorstore():
         retriever=vectorstore.as_retriever(search_kwargs={"k": 3})
     )
 
-    logger.info("Startup complete! API is ready.")
+    logger.info("Vectorstore and retrieval chain setup complete.")
 
-@app.post("/query")
-async def query_endpoint(request_data: QueryRequest):
-    """
-    Logic:
-      1. Attempt doc-based retrieval. 
-         - If top doc chunk is relevant (score < threshold), get doc-based answer.
-      2. Analyze doc-based answer: 
-         - If short, includes "I do not know," or is unhelpful, fallback to a general LLM.
-      3. If doc-based is obviously irrelevant (score > threshold), fallback immediately.
-    """
-    global retrieval_chain, vectorstore
-
-    question = request_data.question
-    logger.info(f"Received question: {question}")
-
-    if not retrieval_chain or not vectorstore:
-        logger.error("Retrieval chain or vectorstore not initialized.")
-        return {"error": "Retrieval chain or vectorstore not initialized."}
-
-    # Step 1: Check if doc is relevant
-    docs_with_scores = vectorstore.similarity_search_with_score(question, k=1)
-    if not docs_with_scores:
-        logger.info("No relevant doc chunk found => fallback.")
-        return fallback_answer(question)
-
-    top_doc, top_score = docs_with_scores[0]
-    logger.info(f"Top doc score: {top_score} (lower=more similar for L2 distance).")
-
-    if top_score <= SIMILARITY_THRESHOLD:
-        # Potentially relevant to doc
-        doc_answer = retrieval_chain.run(question)
-        logger.info(f"Doc-based answer: {doc_answer}")
-
-        # Step 2: Evaluate doc-based answer
-        # If it's too short or "doesn't know," fallback
-        if is_unhelpful_answer(doc_answer):
-            logger.info("Doc-based answer is unhelpful => fallback.")
-            fb = fallback_answer(question)
-            return {"question": question, "answer": fb["answer"]}
-        else:
-            # Return doc-based answer
-            logger.info("Doc-based answer is sufficiently good.")
-            return {"question": question, "answer": doc_answer}
-    else:
-        # Step 3: Not relevant => fallback
-        logger.info("Doc not relevant => fallback.")
-        return fallback_answer(question)
 
 def is_unhelpful_answer(answer: str) -> bool:
     """
-    Checks if the doc-based answer is too short, includes 'I don't know', or
-    otherwise unhelpful. Adjust logic to your needs.
+    Checks if the document-based answer is too short or includes phrases
+    like "I don't know" that indicate an unhelpful response.
     """
     text = answer.strip().lower()
-    if len(text) < 30:  # arbitrary length check
+    if len(text) < 30:
         return True
     if "i don't know" in text or "i am not sure" in text:
         return True
-    # You could add other checks, e.g. "i don't have information"
     return False
+
 
 def fallback_answer(question: str) -> dict:
     """
-    Calls a general LLM with a domain prompt.
-    If question is obviously out of domain, instruct LLM to say "I don't know."
-    Otherwise, the LLM can answer from general knowledge (like definitions of AI).
+    Uses a general LLM with a domain prompt to generate an answer.
+    The prompt includes the original question to provide context.
     """
     logger.info("Using fallback LLM approach.")
     fallback_llm = ChatOpenAI(
-        openai_api_key=OPENAI_API_KEY,
+        openai_api_key=open_api_key,
         temperature=0.3,  # slightly creative
         model_name="gpt-4o-mini"
     )
-
+    logger.info(f"Temperature: {0.3}")
     system_prompt = (
-        "You are a helpful AI assistant working for an AI-based company. "
-        "The user asked a question that is not explicitly covered in the doc. "
-        "If the question is relevant to AI or the company's domain, provide a helpful general answer. "
-        "If the question is obviously unrelated (e.g., how to bake a cake), respond with 'I don't know.'\n\n"
-        f"User question: {question}\n"
+        f"You are an expert analyst in social media and current affairs. The user's query is: \"{question}\". "
+        "You have access to a large repository of relevant tweets that capture public sentiment, key trends, and opinions on this topic. "
+        "Based on the tweet data processed in your retrieval chain, please provide a detailed and insightful response that summarizes prevailing opinions, highlights key trends, "
+        "and, if possible, estimates any potential timeframe or conditions related to the query. "
+        "If the available tweet data does not offer sufficient context, clearly state that the data is insufficient for a confident prediction."
     )
 
-    fallback_answer = fallback_llm.call_as_llm(system_prompt)
-    return {"question": question, "answer": fallback_answer}
+    fallback_ans = fallback_llm.call_as_llm(system_prompt)
+    return {"question": question, "answer": fallback_ans}
 
-@app.get("/")
-async def root():
-    return {"message": "RAG API is running. Use the /query endpoint to ask questions."}
+
+def query_question(question: str, similarity_threshold, k=3) -> dict:
+    """
+    Given a question, uses the retrieval chain to produce an answer based on the tweet data.
+    If the answer is unhelpful or the top tweet chunk is irrelevant, falls back to the general LLM.
+    """
+    global retrieval_chain, vectorstore
+    logger.info(f"Received question: {question}")
+
+    if not retrieval_chain or not vectorstore:
+        logger.error("Vectorstore or retrieval chain not initialized.")
+        return {"error": "Vectorstore or retrieval chain not initialized."}
+
+    docs_with_scores = vectorstore.similarity_search_with_score(question, k=3)
+
+    context = "\n---\n".join([doc.page_content for doc, score in docs_with_scores])
+    logger.info("Aggregated context from retrieved tweets:")
+
+    system_prompt = (
+        f"You are an expert analyst in social media and current affairs. The user's query is: \"{question}\". "
+        "Below is the aggregated tweet data that provides context on this topic:\n\n"
+        f"{context}\n\n"
+        "Based on these tweets, please provide a detailed, insightful response that summarizes prevailing opinions, "
+        "highlights key trends, and if possible, estimates any potential timeframe or conditions related to the query. "
+        "If the tweet data does not offer enough information, clearly state that the available data is insufficient for a confident prediction."
+    )
+    if not docs_with_scores:
+        logger.info("No relevant tweet chunk found => fallback.")
+        return fallback_answer(question)
+
+    top_doc, top_score = docs_with_scores[0]
+    logger.info(f"Top tweet chunk score: {top_score} (lower means more similar).")
+
+    if top_score <= similarity_threshold:
+        doc_answer = retrieval_chain.invoke(system_prompt)
+        logger.info(f"Tweet-based answer: {doc_answer}")
+        return {"question": question, "answer": doc_answer["result"]}
+    else:
+        logger.info("Tweet chunk not relevant => fallback.")
+        return {"question": question,
+                "answer": "Compound score exceeded the similarity threshold. No answers were found."}
+
+
+def get_top_tweets(query: str, k: int = 5) -> list:
+    docs_with_scores = vectorstore.similarity_search_with_score(query, k=k)
+    results = []
+    for idx, (doc, score) in enumerate(docs_with_scores, 1):
+        results.append({
+            "tweet_index": idx,
+            "score": score,
+            "tweet_text": doc.page_content,
+            "sentiment": classify_tweet(doc.page_content)
+        })
+    return results
+
+
+def classify_tweet(tweet):
+    score = sia.polarity_scores(tweet)["compound"]
+    if score >= 0.05:
+        return "positive", score
+    elif score <= -0.05:
+        return "negative", score
+    else:
+        return "neutral", score
+
+
+def find_sentiment_analysis(tweets):
+    tweet_sentiments = []
+    for tweet in tweets:
+        label, score = classify_tweet(tweet)
+        tweet_sentiments.append({"text": tweet, "label": label, "score": score})
+    return tweet_sentiments
+
+
+def get_results(question, es_index_name, similarity_threshold, document_count, temperature):
+    logger.info(f"similarity threshold: {similarity_threshold}")
+    logger.info(f"Number of retrieved documents: {document_count}")
+    logger.info(f"Temperature: {temperature}")
+    response = search_custom(es_index_name, question, size=100)
+
+    tweet_texts = []
+    for hit in response["hits"]["hits"]:
+        source = hit.get("_source", {})
+        tweet_text = source.get("text", "")
+        username = source.get("username", "")
+        tweet_timestamp = source.get("tweetcreatedts", "")
+        hashtags = source.get("hashtags", [])
+        retweet_count = source.get("retweetcount", "")
+        following = source.get("following", "")
+        followers = source.get("followers", "")
+        totaltweets = source.get("totaltweets", "")
+
+        tweet_texts.append(tweet_text)
+
+        # Construct a combined representation for each tweet
+        combined_text = f"{tweet_text}"
+        if username:
+            combined_text += f" | Username: {username}"
+        if tweet_timestamp:
+            combined_text += f" | Timestamp: {tweet_timestamp}"
+        if hashtags:
+            combined_text += f" | Hashtags: {' '.join(hashtags)}"
+        if retweet_count:
+            combined_text += f" | Retweets: {retweet_count}"
+        if following:
+            combined_text += f" | Following: {following}"
+        if followers:
+            combined_text += f" | Followers: {followers}"
+        if totaltweets:
+            combined_text += f" | TotalTweets: {totaltweets}"
+
+        tweet_texts.append(combined_text)
+
+    # Combine all enriched tweet texts into a single aggregated string.
+    knowledge_text = "\n".join(tweet_texts)
+
+    # Now pass this aggregated text as your knowledge source:
+    load_or_create_vectorstore(knowledge_text, temperature)
+
+    result = query_question(question, similarity_threshold, document_count)
+
+    return result
+
+
+def main():
+    # question = "When do you expect the Russia-Ukraine war to end? Additionally, please provide statistics on how many people view this war as just, unjust, or neutral."
+    question = "Who is winning the Russia-Ukraine war?"
+    # question = "Will apple release iphone 200?"
+
+    result = get_results(question, get_index_name(3), 1.5, 10, 0.0)
+    logger.info(result)
+
+    # Extract tweet texts and append additional relevant fields
+    top_tweets = get_top_tweets(question)
+    logger.info(top_tweets)
+
+
+if __name__ == "__main__":
+    main()

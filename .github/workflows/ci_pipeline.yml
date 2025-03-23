@@ -2,14 +2,14 @@ name: CI Pipeline (Airflow‑Like Steps)
 'on':
   push:
     branches:
-      - main
       - assignment_3_main
       - rag
+      - rag_test
   pull_request:
     branches:
-      - main
       - assignment_3_main
       - rag
+      - rag_test
 jobs:
   build-test-index-query:
     runs-on: ubuntu-latest
@@ -113,22 +113,29 @@ jobs:
           from data_pipeline.scripts.es_query import search_custom
           from data_pipeline.scripts.data_indexing_elasticsearch import get_index_name
 
-          hits = search_custom(get_index_name(4), 'russia war end', size=10)
+          response = search_custom(get_index_name(4), 'russia war end', size=10)
           print('Search results:')
-          for hit in hits:
-            print(f"{hit['_id']} | score={hit['_score']} | {hit['_source']['text']}")
+          
+          for hit in response["hits"]["hits"]:
+            print(hit)
+      
           print('Data Querying Successful')
           EOF
 
       - name: RAG Output
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: |
           python - <<EOF
-          from data_pipeline.scripts.es_query import search_custom
+          from data_pipeline.scripts.rag import get_results, get_top_tweets
           from data_pipeline.scripts.data_indexing_elasticsearch import get_index_name
-
-          hits = search_custom(get_index_name(4), 'russia war end', size=10)
-          print('Search results:')
-          for hit in hits:
-            print(f"{hit['_id']} | score={hit['_score']} | {hit['_source']['text']}")
-          print('Data Querying Successful')
+          
+          question = "Who is winning the Russia-Ukraine war?"
+          similarity_threshold = 1.5
+          document_count = 10
+          temperature = 0.0
+          result = get_results(question, get_index_name(4), similarity_threshold, document_count, temperature)
+          print(result)
+          top_tweets = get_top_tweets(question)
+          print(top_tweets)
           EOF

@@ -171,7 +171,7 @@ def main():
     2) Parse the folder
     3) Print how many tweets were processed
     """
-    default_folder = "../data/version_1"  # Adjust as needed
+    default_folder = "../data/github_test_version"  # Adjust as needed
     results = parse_folder(default_folder)
     logger.info(f"Standalone run: {len(results)} tweets processed.")
 
