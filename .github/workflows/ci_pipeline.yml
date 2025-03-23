@@ -1,5 +1,5 @@
 name: CI Pipeline (Airflow‑Like Steps)
-'on':
+on:
   push:
     branches:
       - assignment_3_main
