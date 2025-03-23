@@ -114,10 +114,12 @@ jobs:
           from data_pipeline.scripts.es_query import search_custom
           from data_pipeline.scripts.data_indexing_elasticsearch import get_index_name
 
-          hits = search_custom(get_index_name(4), 'russia war end', size=10)
+          response = search_custom(get_index_name(4), 'russia war end', size=10)
           print('Search results:')
-          for hit in hits:
-            print(f"{hit['_id']} | score={hit['_score']} | {hit['_source']['text']}")
+          
+          for hit in response["hits"]["hits"]:
+            print(hit)
+      
           print('Data Querying Successful')
           EOF
 
