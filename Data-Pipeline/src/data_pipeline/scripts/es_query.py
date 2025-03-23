@@ -12,7 +12,7 @@ If no query is provided, a default query ("russia war end") is used.
 
 import sys
 from elasticsearch7 import Elasticsearch
-from logging_config import get_logger
+from .logging_config import get_logger
 
 logger = get_logger("es_query_custom.log", logger_name=__name__)
 

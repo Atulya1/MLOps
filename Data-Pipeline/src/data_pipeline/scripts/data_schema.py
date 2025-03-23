@@ -6,7 +6,7 @@ Logs any schema violations or anomalies.
 """
 
 import logging
-from logging_config import get_logger
+from .logging_config import get_logger
 
 logger = get_logger("data_schema.log", logger_name=__name__)
 

@@ -1,6 +1,4 @@
 import os
-import logging
-from dotenv import load_dotenv
 
 # Import LangChain components
 from langchain_community.embeddings import OpenAIEmbeddings
@@ -8,6 +6,12 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_community.vectorstores import FAISS
 from langchain.chains import RetrievalQA
 from langchain_community.chat_models import ChatOpenAI
+from dotenv import load_dotenv
+load_dotenv()
+
+
+from .es_query import search_custom
+from .data_indexing_elasticsearch import get_index_name
 
 import ssl
 import nltk
@@ -31,9 +35,9 @@ from logging_config import get_logger
 
 logger = get_logger("rag.log", logger_name=__name__)
 
-# --- Configuration ---
-OPENAI_API_KEY = ""
 
+# --- Configuration ---
+open_api_key = os.getenv("OPENAI_API_KEY")
 EMBEDDINGS_FOLDER = os.path.join("embeddings", "faiss_index")
 
 # Global references for the vectorstore and retrieval chain
@@ -64,7 +68,7 @@ def load_or_create_vectorstore(data_source: str):
     logger.info(f"Number of chunks created: {len(docs)}")
 
     logger.info("Initializing embeddings...")
-    embeddings = OpenAIEmbeddings(openai_api_key=OPENAI_API_KEY)
+    embeddings = OpenAIEmbeddings(openai_api_key=open_api_key)
 
     logger.info("Checking for existing FAISS index...")
     faiss_index_file = os.path.join(EMBEDDINGS_FOLDER, "index.faiss")
@@ -86,7 +90,7 @@ def load_or_create_vectorstore(data_source: str):
 
     logger.info("Setting up retrieval chain...")
     domain_llm = ChatOpenAI(
-        openai_api_key=OPENAI_API_KEY,
+        openai_api_key=open_api_key,
         temperature=0.0,
         model_name="gpt-4o-mini"  # or "gpt-4"/"gpt-3.5-turbo"
     )
@@ -137,7 +141,7 @@ def fallback_answer(question: str) -> dict:
     return {"question": question, "answer": fallback_ans}
 
 
-def query_question(question: str) -> dict:
+def query_question(question: str, similarity_threshold, k=3) -> dict:
     """
     Given a question, uses the retrieval chain to produce an answer based on the tweet data.
     If the answer is unhelpful or the top tweet chunk is irrelevant, falls back to the general LLM.
@@ -149,11 +153,10 @@ def query_question(question: str) -> dict:
         logger.error("Vectorstore or retrieval chain not initialized.")
         return {"error": "Vectorstore or retrieval chain not initialized."}
 
-    docs_with_scores = vectorstore.similarity_search_with_score(question, k=24)
+    docs_with_scores = vectorstore.similarity_search_with_score(question, k=3)
 
     context = "\n---\n".join([doc.page_content for doc, score in docs_with_scores])
     logger.info("Aggregated context from retrieved tweets:")
-    logger.info(context)
 
     system_prompt = (
         f"You are an expert analyst in social media and current affairs. The user's query is: \"{question}\". "
@@ -170,20 +173,27 @@ def query_question(question: str) -> dict:
     top_doc, top_score = docs_with_scores[0]
     logger.info(f"Top tweet chunk score: {top_score} (lower means more similar).")
 
-    if top_score <= SIMILARITY_THRESHOLD:
+    if top_score <= similarity_threshold:
         doc_answer = retrieval_chain.invoke(system_prompt)
         logger.info(f"Tweet-based answer: {doc_answer}")
-        return {"question": question, "answer": doc_answer}
-        # if is_unhelpful_answer(doc_answer):
-        #     logger.info("Tweet-based answer is unhelpful => fallback.")
-        #     return fallback_answer(question)
-        # else:
-        #     logger.info("Tweet-based answer is sufficiently good.")
-        #     return {"question": question, "answer": doc_answer}
+        return {"question": question, "answer": doc_answer["result"]}
     else:
         logger.info("Tweet chunk not relevant => fallback.")
-        return {"question": question, "answer": "FallBack Answer"}
-        #return fallback_answer(question)
+        return {"question": question,
+                "answer": "Compound score exceeded the similarity threshold. No answers were found."}
+
+
+def get_top_tweets(query: str, k: int = 5) -> list:
+    docs_with_scores = vectorstore.similarity_search_with_score(query, k=k)
+    results = []
+    for idx, (doc, score) in enumerate(docs_with_scores, 1):
+        results.append({
+            "tweet_index": idx,
+            "score": score,
+            "tweet_text": doc.page_content,
+            "sentiment": classify_tweet(doc.page_content)
+        })
+    return results
 
 
 def classify_tweet(tweet):
@@ -204,15 +214,7 @@ def find_sentiment_analysis(tweets):
     return tweet_sentiments
 
 
-def main():
-    # Sample data source: output from an Elasticsearch query containing tweets.
-
-    from es_query import search_custom
-    from data_indexing_elasticsearch import get_index_name
-
-   # question = "When do you expect the Russia-Ukraine war to end? Additionally, please provide statistics on how many people view this war as just, unjust, or neutral."
-    #question = "Who is winning the Russia-Ukraine war?"
-    question = "Will apple release iphone 200?"
+def get_results(question, similarity_threshold, k):
     response = search_custom(get_index_name(3), question, size=100)
 
     tweet_texts = []
@@ -230,69 +232,46 @@ def main():
         tweet_texts.append(tweet_text)
 
         # Construct a combined representation for each tweet
-        # combined_text = f"{tweet_text}"
-        # if username:
-        #     combined_text += f" | Username: {username}"
-        # if tweet_timestamp:
-        #     combined_text += f" | Timestamp: {tweet_timestamp}"
-        # if hashtags:
-        #     combined_text += f" | Hashtags: {' '.join(hashtags)}"
-        # if retweet_count:
-        #     combined_text += f" | Retweets: {retweet_count}"
-        # if following:
-        #     combined_text += f" | Following: {following}"
-        # if followers:
-        #     combined_text += f" | Followers: {followers}"
-        # if totaltweets:
-        #     combined_text += f" | TotalTweets: {totaltweets}"
+        combined_text = f"{tweet_text}"
+        if username:
+            combined_text += f" | Username: {username}"
+        if tweet_timestamp:
+            combined_text += f" | Timestamp: {tweet_timestamp}"
+        if hashtags:
+            combined_text += f" | Hashtags: {' '.join(hashtags)}"
+        if retweet_count:
+            combined_text += f" | Retweets: {retweet_count}"
+        if following:
+            combined_text += f" | Following: {following}"
+        if followers:
+            combined_text += f" | Followers: {followers}"
+        if totaltweets:
+            combined_text += f" | TotalTweets: {totaltweets}"
 
-        # tweet_texts.append(combined_text)
+        tweet_texts.append(combined_text)
 
     # Combine all enriched tweet texts into a single aggregated string.
     knowledge_text = "\n".join(tweet_texts)
 
-    tweet_sentiments = find_sentiment_analysis(tweet_texts)
-
-    # Get top 2 positive tweets (highest compound scores)
-    positive_tweets = sorted(
-        [t for t in tweet_sentiments if t["label"] == "positive"],
-        key=lambda x: x["score"],
-        reverse=True
-    )[:2]
-
-    # Get top 2 negative tweets (lowest compound scores)
-    negative_tweets = sorted(
-        [t for t in tweet_sentiments if t["label"] == "negative"],
-        key=lambda x: x["score"]
-    )[:2]
-
-    # Get top 2 neutral tweets (lowest absolute compound difference from 0)
-    neutral_tweets = sorted(
-        [t for t in tweet_sentiments if t["label"] == "neutral"],
-        key=lambda x: abs(x["score"])
-    )[:2]
-
-    print("Top Positive Tweets:")
-    for tweet in positive_tweets:
-        print(tweet)
-
-    print("\nTop Negative Tweets:")
-    for tweet in negative_tweets:
-        print(tweet)
-
-    print("\nTop Neutral Tweets:")
-    for tweet in neutral_tweets:
-        print(tweet)
-
     # Now pass this aggregated text as your knowledge source:
     load_or_create_vectorstore(knowledge_text)
 
-    result = query_question(question)
+    result = query_question(question, similarity_threshold, k)
 
-    print("Final Answer:")
-    print(result)
+    return result
+
+
+def main():
+    # question = "When do you expect the Russia-Ukraine war to end? Additionally, please provide statistics on how many people view this war as just, unjust, or neutral."
+    question = "Who is winning the Russia-Ukraine war?"
+    # question = "Will apple release iphone 200?"
+
+    result = get_results(question, 1.5, 10)
+    logger.info(result)
 
     # Extract tweet texts and append additional relevant fields
+    top_tweets = get_top_tweets(question)
+    logger.info(top_tweets)
 
 
 if __name__ == "__main__":

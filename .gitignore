@@ -31,3 +31,5 @@ Data-Pipeline/logs/*.log
 
 # Ignore all .log files in airflow_home/logs/
 airflow_home/logs/*.log
+
+.env
