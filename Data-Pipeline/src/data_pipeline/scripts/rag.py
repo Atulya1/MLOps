@@ -271,7 +271,10 @@ def main():
     question = "Who is winning the Russia-Ukraine war?"
     # question = "Will apple release iphone 200?"
 
-    result = get_results(question, get_index_name(3), 1.5, 10, 0.0)
+    similarity_threshold = 1.5
+    document_count = 10
+    temperature = 0.0
+    result = get_results(question, get_index_name(3), similarity_threshold, document_count, temperature)
     logger.info(result)
 
     # Extract tweet texts and append additional relevant fields
