@@ -31,7 +31,7 @@ from nltk.sentiment.vader import SentimentIntensityAnalyzer
 sia = SentimentIntensityAnalyzer()
 
 # Configure logging
-from logging_config import get_logger
+from .logging_config import get_logger
 
 logger = get_logger("rag.log", logger_name=__name__)
 
