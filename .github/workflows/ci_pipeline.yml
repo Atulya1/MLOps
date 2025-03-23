@@ -126,7 +126,7 @@ jobs:
       - name: RAG Output
         run: |
           python - <<EOF
-          from data_pipeline.scripts.rag.py import get_results, get_top_tweets
+          from data_pipeline.scripts.rag import get_results, get_top_tweets
           from data_pipeline.scripts.data_indexing_elasticsearch import get_index_name
           
           question = "Who is winning the Russia-Ukraine war?"
