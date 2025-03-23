@@ -19,7 +19,6 @@ jobs:
         ports:
           - '9200:9200'
         env:
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           discovery.type: single-node
           xpack.security.enabled: 'false'
           xpack.security.http.ssl.enabled: 'false'
@@ -124,6 +123,8 @@ jobs:
           EOF
 
       - name: RAG Output
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: |
           python - <<EOF
           from data_pipeline.scripts.rag import get_results, get_top_tweets
