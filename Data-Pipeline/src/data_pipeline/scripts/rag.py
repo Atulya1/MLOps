@@ -217,8 +217,8 @@ def find_sentiment_analysis(tweets):
 
 
 def get_results(question, es_index_name, similarity_threshold, document_count, temperature):
-    logger.info(f"similarity threshold: {similarity_threshold}")
-    logger.info(f"Number of retrieved documents: {document_count}")
+    logger.info(f"Similarity Threshold: {similarity_threshold}")
+    logger.info(f"Number of Retrieved Documents: {document_count}")
     logger.info(f"Temperature: {temperature}")
     response = search_custom(es_index_name, question, size=100)
 
