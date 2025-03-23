@@ -49,7 +49,7 @@ vectorstore = None
 SIMILARITY_THRESHOLD = 3
 
 
-def load_or_create_vectorstore(data_source: str):
+def load_or_create_vectorstore(data_source: str, temperature):
     """
     Load or create the vectorstore from the provided data source.
     In this case, the data source is the output of an Elasticsearch query,
@@ -92,9 +92,10 @@ def load_or_create_vectorstore(data_source: str):
     logger.info("Setting up retrieval chain...")
     domain_llm = ChatOpenAI(
         openai_api_key=open_api_key,
-        temperature=0.0,
+        temperature=temperature,
         model_name="gpt-4o-mini"  # or "gpt-4"/"gpt-3.5-turbo"
     )
+    logger.info(f"Temperature: {temperature}")
 
     retrieval_chain = RetrievalQA.from_chain_type(
         llm=domain_llm,
@@ -129,7 +130,7 @@ def fallback_answer(question: str) -> dict:
         temperature=0.3,  # slightly creative
         model_name="gpt-4o-mini"
     )
-
+    logger.info(f"Temperature: {0.3}")
     system_prompt = (
         f"You are an expert analyst in social media and current affairs. The user's query is: \"{question}\". "
         "You have access to a large repository of relevant tweets that capture public sentiment, key trends, and opinions on this topic. "
@@ -215,7 +216,10 @@ def find_sentiment_analysis(tweets):
     return tweet_sentiments
 
 
-def get_results(question, es_index_name, similarity_threshold, k):
+def get_results(question, es_index_name, similarity_threshold, document_count, temperature):
+    logger.info(f"similarity threshold: {similarity_threshold}")
+    logger.info(f"Number of retrieved documents: {document_count}")
+    logger.info(f"Temperature: {temperature}")
     response = search_custom(es_index_name, question, size=100)
 
     tweet_texts = []
@@ -255,9 +259,9 @@ def get_results(question, es_index_name, similarity_threshold, k):
     knowledge_text = "\n".join(tweet_texts)
 
     # Now pass this aggregated text as your knowledge source:
-    load_or_create_vectorstore(knowledge_text)
+    load_or_create_vectorstore(knowledge_text, temperature)
 
-    result = query_question(question, similarity_threshold, k)
+    result = query_question(question, similarity_threshold, document_count)
 
     return result
 
@@ -267,7 +271,7 @@ def main():
     question = "Who is winning the Russia-Ukraine war?"
     # question = "Will apple release iphone 200?"
 
-    result = get_results(question, get_index_name(3), 1.5, 10)
+    result = get_results(question, get_index_name(3), 1.5, 10, 0.0)
     logger.info(result)
 
     # Extract tweet texts and append additional relevant fields
