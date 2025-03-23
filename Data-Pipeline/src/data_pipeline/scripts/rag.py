@@ -37,6 +37,7 @@ logger = get_logger("rag.log", logger_name=__name__)
 
 
 # --- Configuration ---
+
 open_api_key = os.getenv("OPENAI_API_KEY")
 EMBEDDINGS_FOLDER = os.path.join("embeddings", "faiss_index")
 
@@ -124,7 +125,7 @@ def fallback_answer(question: str) -> dict:
     """
     logger.info("Using fallback LLM approach.")
     fallback_llm = ChatOpenAI(
-        openai_api_key=OPENAI_API_KEY,
+        openai_api_key=open_api_key,
         temperature=0.3,  # slightly creative
         model_name="gpt-4o-mini"
     )
