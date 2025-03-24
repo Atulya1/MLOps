@@ -123,24 +123,13 @@ jobs:
       - name: Assess Normalization Bias
         run: |
           python - <<EOF
-          from data_pipeline.scripts.es_query import search_custom
-          from data_pipeline.scripts.es_query import search_custom_text
+          from data_pipeline.scripts.es_query import assess_normalization_bias
           from data_pipeline.scripts.data_indexing_elasticsearch import get_index_name
           
-          query_string = "Who is winning the Russia-Ukraine war?" if len(sys.argv) < 2 else " ".join(sys.argv[1:])
-          index_name = get_index_name(4) # Change if needed
-
-          hits = search_custom(index_name, query_string, size=10)
-          print("Search results from custom query:")
-          for hit in hits.get("hits", {}).get("hits", []):
-            tweet_id = hit.get("_id", "unknown")
-            score = hit.get("_score", 0)
-            text = hit.get("_source", {}).get("text", "")
-            logger.info(f"Tweet ID: {tweet_id}, Score: {score}, Text: {text}")
-              print(f"Tweet ID: {tweet_id}\nScore: {score}\nText: {text}\n{'-' * 40}")
+          query_string = "Who is winning the Russia-Ukraine war?"
 
           # Compare the search scores between the two methods
-          assess_normalization_bias(index_name, query_string, size=10)
+          assess_normalization_bias(get_index_name(4), query_string, size=10)
           EOF
 
       - name: Bias Detection and Removal

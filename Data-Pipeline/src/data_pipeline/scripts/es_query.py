@@ -149,6 +149,7 @@ def search_custom_text(index_name, query_string, size=10):
         return []
 
 
+
 def main():
     """
     Main function for standalone testing.
@@ -162,7 +163,8 @@ def main():
     index_name = "tweets_ukraine_version_3"  # Change if needed
     es_client = get_es_client()
 
-    hits = search_custom(index_name, "russia war end", size=10)
+    query_string = "russia war end"
+    hits = search_custom(index_name, query_string, size=10)
 
     logger.info("Search results:")
     for hit in hits:
@@ -171,6 +173,8 @@ def main():
         text = hit.get("_source", {}).get("text", "")
         logger.info(f"Tweet ID: {tweet_id}, Score: {score}, Text: {text}")
         print(f"Tweet ID: {tweet_id}\nScore: {score}\nText: {text}\n{'-' * 40}")
+
+    assess_normalization_bias(index_name, query_string, size=10)
 
 
 def assess_normalization_bias(index_name, query_string, size=10):
@@ -198,14 +202,6 @@ def assess_normalization_bias(index_name, query_string, size=10):
     print(f"Average score (custom query): {avg_custom}")
     print(f"Average score (custom text query): {avg_custom_text}")
     print(f"Difference in average scores: {score_diff}")
-
-    # Optionally, you can also compare hit-by-hit if they align (by _id), but often the hit order may differ.
-    return {
-        "avg_custom": avg_custom,
-        "avg_custom_text": avg_custom_text,
-        "score_diff": score_diff
-    }
-
 
 if __name__ == "__main__":
     main()
