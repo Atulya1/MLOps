@@ -183,3 +183,34 @@ jobs:
               top_tweets = get_top_tweets(question)
               print(top_tweets)
           EOF
+
+      - name: Sensitivity Analysis
+        env:
+        run: |
+          python - <<EOF
+          from data_pipeline.scripts.sensitivity_analysis import run_analysis
+          from data_pipeline.scripts.data_indexing_elasticsearch import get_index_name
+          question = "Who is winning the Russia-Ukraine war?"
+          run_analysis(index_name, question, 100)
+          EOF
+
+      - name: Model Sensitivity Analysis
+        env:
+        run: |
+          python - <<EOF
+          from data_pipeline.scripts.sensitivity_analysis import run_analysis, create_sentiment_sets
+          from data_pipeline.scripts.data_indexing_elasticsearch import get_index_name
+          from data_pipeline.scripts.es_query import search_custom
+
+          print("Based on the sensitivity analysis performed on the tweets, we are classifying the tweets in positive, negative, and neutral sets")
+          pos_thresh = 0.2
+          neg_thresh = -0.2
+          question = "Who is winning the Russia-Ukraine war?"
+          response = search_custom(get_index_name(4), question, size=100)
+          positive_tweets, neutral_tweets, negative_tweets = create_sentiment_sets(response, pos_thresh, neg_thresh):
+          
+          print("Positive tweets": positive_tweets)
+          print("Neutral tweets": neutral_tweets)
+          print("Negative tweets": negative_tweets)
+          
+          EOF
