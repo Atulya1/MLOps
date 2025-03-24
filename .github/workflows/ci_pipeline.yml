@@ -185,7 +185,6 @@ jobs:
           EOF
 
       - name: Sensitivity Analysis
-        env:
         run: |
           python - <<EOF
           from data_pipeline.scripts.sensitivity_analysis import run_analysis
@@ -195,7 +194,6 @@ jobs:
           EOF
 
       - name: Model Sensitivity Analysis
-        env:
         run: |
           python - <<EOF
           from data_pipeline.scripts.sensitivity_analysis import run_analysis, create_sentiment_sets
@@ -212,5 +210,4 @@ jobs:
           print("Positive tweets": positive_tweets)
           print("Neutral tweets": neutral_tweets)
           print("Negative tweets": negative_tweets)
-          
           EOF
