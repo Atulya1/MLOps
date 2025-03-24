@@ -43,10 +43,6 @@ EMBEDDINGS_FOLDER = os.path.join("embeddings", "faiss_index")
 retrieval_chain = None
 vectorstore = None
 
-# For FAISS (default L2 distance), smaller => more similar
-SIMILARITY_THRESHOLD = 3
-
-
 def load_or_create_vectorstore(data_source: str, temperature):
     """
     Load or create the vectorstore from the provided data source.
@@ -153,7 +149,7 @@ def query_question(question: str, similarity_threshold, k=3) -> dict:
         logger.error("Vectorstore or retrieval chain not initialized.")
         return {"error": "Vectorstore or retrieval chain not initialized."}
 
-    docs_with_scores = vectorstore.similarity_search_with_score(question, k=3)
+    docs_with_scores = vectorstore.similarity_search_with_score(question, k)
 
     context = "\n---\n".join([doc.page_content for doc, score in docs_with_scores])
     logger.info("Aggregated context from retrieved tweets:")
@@ -314,12 +310,15 @@ def detect_and_remove_bias(query_response_es):
     knowledge_text_without_bias = "\n".join(tweet_texts_without_bias)
     knowledge_text_with_bias = "\n".join(tweet_texts_with_bias)
 
-    return {knowledge_text_with_bias, knowledge_text_without_bias}
+    return {
+        "knowledge_text_with_bias": knowledge_text_with_bias,
+        "knowledge_text_without_bias": knowledge_text_without_bias
+    }
 
 
 def get_results(question, es_index_name, similarity_threshold, document_count, temperature):
     logger.info(f"Similarity Threshold: {similarity_threshold}")
-    logger.info(f"Number of Retrieved Documents: {document_count}")
+    logger.info(f"k value: {document_count}")
     logger.info(f"Temperature: {temperature}")
     response = search_custom(es_index_name, question, size=100)
 

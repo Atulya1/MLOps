@@ -163,3 +163,23 @@ jobs:
           top_tweets = get_top_tweets(question)
           print(top_tweets)
           EOF
+
+      - name: RAG Sensitivity
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: |
+          python - <<EOF
+          from data_pipeline.scripts.rag import get_results, get_top_tweets
+          from data_pipeline.scripts.data_indexing_elasticsearch import get_index_name
+          
+          question = "Who is winning the Russia-Ukraine war?"
+          similarity_threshold = 1.5
+          document_count = [3, 5, 10]
+          temperature = [0.0, 0.1, 0.2]
+          for k in document_count:
+            for temp in temperature:
+              result = get_results(question, get_index_name(4), similarity_threshold, k, temp)
+              print(result)
+              top_tweets = get_top_tweets(question)
+              print(top_tweets)
+          EOF
