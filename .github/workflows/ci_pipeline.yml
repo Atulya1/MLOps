@@ -196,7 +196,7 @@ jobs:
           pos_thresh = 0.2
           neg_thresh = -0.2
           response = search_custom(get_index_name(4), question, size=100)
-          positive_tweets, neutral_tweets, negative_tweets = create_sentiment_sets(response, pos_thresh, neg_thresh):
+          positive_tweets, neutral_tweets, negative_tweets = create_sentiment_sets(response, pos_thresh, neg_thresh)
           
           print("Positive tweets": positive_tweets)
           print("Neutral tweets": neutral_tweets)
