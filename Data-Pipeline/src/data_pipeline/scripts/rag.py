@@ -313,8 +313,8 @@ def detect_and_remove_bias(query_response_es):
 
     knowledge_text_without_bias = "\n".join(tweet_texts_without_bias)
     knowledge_text_with_bias = "\n".join(tweet_texts_with_bias)
-    print(f"Combined Knowledge test before normalization and removing bias: {knowledge_text_with_bias}")
-    return knowledge_text_without_bias
+
+    return {knowledge_text_with_bias, knowledge_text_without_bias}
 
 
 def get_results(question, es_index_name, similarity_threshold, document_count, temperature):
@@ -325,8 +325,8 @@ def get_results(question, es_index_name, similarity_threshold, document_count, t
 
     knowledge_text = detect_and_remove_bias(response)
 
-    # Now pass this aggregated text as your knowledge source:
-    load_or_create_vectorstore(knowledge_text, temperature)
+    # Now pass knowledge_text_without_bias text as knowledge source:
+    load_or_create_vectorstore(knowledge_text['knowledge_text_without_bias'], temperature)
 
     result = query_question(question, similarity_threshold, document_count)
 

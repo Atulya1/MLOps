@@ -142,7 +142,8 @@ jobs:
           question = "Who is winning the Russia-Ukraine war?"
           response = search_custom(get_index_name(4), question, size=100)
           knowledge_text = detect_and_remove_bias(response)
-          print(f"Combined Knowledge test after normalization and removing bias: {knowledge_text}")
+          print(f"Combined Knowledge test before normalization and removing bias: {knowledge_text['knowledge_text_with_bias']}")
+          print(f"Combined Knowledge test after normalization and removing bias: {knowledge_text['knowledge_text_without_bias']}")
           EOF
 
       - name: RAG Output
