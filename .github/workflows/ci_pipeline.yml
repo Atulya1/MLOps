@@ -187,8 +187,10 @@ jobs:
       - name: Sensitivity Analysis
         run: |
           python - <<EOF
-          from data_pipeline.scripts.sensitivity_analysis import run_analysis
+          from data_pipeline.scripts.sensitivity_analysis import run_analysis, create_sentiment_sets
           from data_pipeline.scripts.data_indexing_elasticsearch import get_index_name
+          from data_pipeline.scripts.es_query import search_custom
+          
           question = "Who is winning the Russia-Ukraine war?"
           run_analysis(get_index_name(4), question, 100)
           
