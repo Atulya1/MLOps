@@ -8,7 +8,6 @@ A comprehensive data pipeline that processes Twitter data related to the Ukraine
 MLOps/  
 ├── .github/workflows/        # GitHub Actions workflows for CI/CD  
 │   ├── ci_pipeline.yml       # CI/CD pipeline configuration  
-│   ├── elasticsearch.yml     # Elasticsearch pipeline configuration  
 │   ├── stoplist.txt          # Stopword list for filtering  
 │  
 ├── Data-Pipeline/            # Data pipeline components  
@@ -18,7 +17,6 @@ MLOps/
 │   │   ├── scripts/          # Core processing scripts  
 │   ├── tests/                # Test cases for validation  
 │  
-├── airflow_home/             # Apache Airflow home directory  
 │  
 ├── config/                   # Configuration files  
 │   ├── docker-compose.yml    # Docker setup for services  
@@ -41,7 +39,7 @@ The CI/CD pipeline is triggered on push and pull requests to the following branc
 
 ## CI/CD Pipeline Steps
 **1. Environment Setup**
-Checks out the latest code from GitHub.
+Check out the latest code from GitHub.
 
 Sets up Python 3.10 environment.
 
@@ -83,7 +81,8 @@ Top Chart (pos_thresh = 0.05): More tweets are classified as positive, with a sl
 Middle Chart (pos_thresh = 0.1): The number of positive tweets slightly decreases, shifting some tweets to neutral and negative classes.
 
 Bottom Chart (pos_thresh = 0.2): A stricter positive threshold results in fewer positive tweets, increasing neutral and negative tweet counts.
-![alt text](image-1.png)
+![image](https://github.com/user-attachments/assets/006f73e4-ed56-4af2-8621-39791bdfd05f)
+
 ## Model Sentiment Analysis
 
 - Runs a sensitivity analysis on indexed tweets.
@@ -254,7 +253,7 @@ and relevance to key topics. For more details, refer - [Tweet Retrieving Algorit
 
 ## Contributing
 1. Fork the repository
-2. Create feature branch
+2. Create a feature branch
 3. Add tests for new features
 4. Submit pull request
 
@@ -262,7 +261,7 @@ and relevance to key topics. For more details, refer - [Tweet Retrieving Algorit
 MIT License - See LICENSE file for details
 
 ## Contact
-For questions or collaboration, please open an issue or contact the developers.
+If you have any questions or collaborate, please open an issue or contact the developers.
 
 ## Pipeline Graph and Gantt Chart
 ![image](https://github.com/user-attachments/assets/5aed4a13-abbd-4e76-a598-b05787edb701)
