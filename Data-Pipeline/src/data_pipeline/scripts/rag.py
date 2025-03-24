@@ -137,7 +137,7 @@ def fallback_answer(question: str) -> dict:
     return {"question": question, "answer": fallback_ans}
 
 
-def query_question(question: str, similarity_threshold, k=3) -> dict:
+def query_question(question: str, similarity_threshold, k) -> dict:
     """
     Given a question, uses the retrieval chain to produce an answer based on the tweet data.
     If the answer is unhelpful or the top tweet chunk is irrelevant, falls back to the general LLM.
@@ -179,7 +179,7 @@ def query_question(question: str, similarity_threshold, k=3) -> dict:
                 "answer": "Compound score exceeded the similarity threshold. No answers were found."}
 
 
-def get_top_tweets(query: str, k: int = 5) -> list:
+def get_top_tweets(query: str, k) -> list:
     docs_with_scores = vectorstore.similarity_search_with_score(query, k=k)
     results = []
     for idx, (doc, score) in enumerate(docs_with_scores, 1):
@@ -317,6 +317,11 @@ def detect_and_remove_bias(query_response_es):
 
 
 def get_results(question, es_index_name, similarity_threshold, document_count, temperature):
+    # Reset the global state to force reinitialization with new parameters
+    global retrieval_chain, vectorstore
+    retrieval_chain = None
+    vectorstore = None
+
     logger.info(f"Similarity Threshold: {similarity_threshold}")
     logger.info(f"k value: {document_count}")
     logger.info(f"Temperature: {temperature}")
@@ -366,7 +371,7 @@ def main():
 
     # run_analysis(result)
     # Extract tweet texts and append additional relevant fields
-    top_tweets = get_top_tweets(question)
+    top_tweets = get_top_tweets(question, document_count)
     logger.info(top_tweets)
 
 

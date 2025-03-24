@@ -180,6 +180,6 @@ jobs:
             for temp in temperature:
               result = get_results(question, get_index_name(4), similarity_threshold, k, temp)
               print(result)
-              top_tweets = get_top_tweets(question)
+              top_tweets = get_top_tweets(question, k)
               print(top_tweets)
           EOF
