@@ -225,7 +225,8 @@ def find_sentiment_analysis(tweets):
 
 
 def detect_and_remove_bias(query_response_es):
-    tweet_texts = []
+    tweet_texts_without_bias = []
+    tweet_texts_with_bias = []
     for hit in query_response_es["hits"]["hits"]:
         source = hit.get("_source", {})
         tweet_text = source.get("text", "")
@@ -236,6 +237,24 @@ def detect_and_remove_bias(query_response_es):
         following = source.get("following", "")
         followers = source.get("followers", "")
         total_tweets = source.get("totaltweets", "")
+
+        combined_text_with_bias = f"{tweet_text}"
+        if username:
+            combined_text_with_bias += f" | Username: {username}"
+        if tweet_timestamp:
+            combined_text_with_bias += f" | Timestamp: {tweet_timestamp}"
+        if hashtags:
+            combined_text_with_bias += f" | Hashtags: {' '.join(hashtags)}"
+        if retweet_count:
+            combined_text_with_bias += f" | Retweets: {retweet_count}"
+        if following:
+            combined_text_with_bias += f" | Following: {following}"
+        if followers:
+            combined_text_with_bias += f" | Followers: {followers}"
+        if total_tweets:
+            combined_text_with_bias += f" | TotalTweets: {total_tweets}"
+
+        tweet_texts_with_bias.append(combined_text_with_bias)
 
         # Convert numeric fields to float; if conversion fails or value is not positive, default to 0.0.
         try:
@@ -264,6 +283,15 @@ def detect_and_remove_bias(query_response_es):
         followingNorm = math.log1p(t) / 10.0
         totaltweetsNorm = math.log1p(f2) / 10.0
 
+        # Reweighing: compute a factor inversely proportional to the normalized followers.
+        # Tweets from users with high followersNorm receive lower weight.
+        reweight_factor = 1 / (1 + followersNorm)
+
+        # Adjust normalized values with the reweight factor.
+        retweetsNorm_adjusted = retweetsNorm * reweight_factor
+        followingNorm_adjusted = followingNorm * reweight_factor
+        totaltweetsNorm_adjusted = totaltweetsNorm * reweight_factor
+
         # Construct a combined representation for the tweet.
         combined_text = tweet_text
         if username:
@@ -273,18 +301,20 @@ def detect_and_remove_bias(query_response_es):
         if hashtags:
             combined_text += f" | Hashtags: {' '.join(hashtags)}"
         if retweet_count:
-            combined_text += f" | Retweets: {retweetsNorm}"
+            combined_text += f" | Retweets: {retweetsNorm_adjusted}"
         if following:
-            combined_text += f" | Following: {followingNorm}"
+            combined_text += f" | Following: {followingNorm_adjusted}"
         if followers:
             combined_text += f" | Followers: {followersNorm}"
         if total_tweets:
-            combined_text += f" | TotalTweets: {totaltweetsNorm}"
+            combined_text += f" | TotalTweets: {totaltweetsNorm_adjusted}"
 
-        tweet_texts.append(combined_text)
+        tweet_texts_without_bias.append(combined_text)
 
-    knowledge_text = "\n".join(tweet_texts)
-    return knowledge_text
+    knowledge_text_without_bias = "\n".join(tweet_texts_without_bias)
+    knowledge_text_with_bias = "\n".join(tweet_texts_with_bias)
+    print(f"Combined Knowledge test before normalization and removing bias: {knowledge_text_with_bias}")
+    return knowledge_text_without_bias
 
 
 def get_results(question, es_index_name, similarity_threshold, document_count, temperature):

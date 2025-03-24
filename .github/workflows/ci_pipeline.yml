@@ -136,12 +136,13 @@ jobs:
         run: |
           python - <<EOF
           from data_pipeline.scripts.rag import detect_and_remove_bias
+          from data_pipeline.scripts.es_query import search_custom
           from data_pipeline.scripts.data_indexing_elasticsearch import get_index_name
           
           question = "Who is winning the Russia-Ukraine war?"
-          response = search_custom(get_index_name(3), question, size=100)
+          response = search_custom(get_index_name(4), question, size=100)
           knowledge_text = detect_and_remove_bias(response)
-          print(knowledge_text)
+          print(f"Combined Knowledge test after normalization and removing bias: {knowledge_text}")
           EOF
 
       - name: RAG Output
