@@ -5,63 +5,115 @@ A comprehensive data pipeline that processes Twitter data related to the Ukraine
 
 ## Architecture
 ```
-Data-Pipeline/
-├── data/               # Versioned datasets
-│   ├── version_1/     # First dataset version
-│   ├── version_2/     # Second dataset version
-│   └── version_3/     # Third dataset version
-|   └── data_versions.py # Manages dataset versions
-├── scripts/           # Core processing scripts
-│   ├── data_acquisition.py    # Downloads data from Kaggle
-│   ├── data_preprocessing.py  # Cleans and processes tweets
-│   ├── data_schema.py        # Validates data structure
-│   ├── data_versions.py      # Manages dataset versions
-│   └── logging_config.py     # Logging configuration
-├── tests/             # Test suite
-│   ├── data_acquisition_tests.py
-│   └── data_preprocessing_tests.py
-│   ├── data_index_elasticsearch_tests.py
-│   └── es_query_tests.py
-├── logs/             # Application logs
-└── dags/             # Airflow DAGs
+MLOps/  
+├── .github/workflows/        # GitHub Actions workflows for CI/CD  
+│   ├── ci_pipeline.yml       # CI/CD pipeline configuration  
+│   ├── elasticsearch.yml     # Elasticsearch pipeline configuration  
+│   ├── stoplist.txt          # Stopword list for filtering  
+│  
+├── Data-Pipeline/            # Data pipeline components  
+│   ├── dags/                 # Airflow DAGs  
+│   ├── src/data_pipeline/    # Source code for data pipeline  
+│   │   ├── data/             # Data storage  
+│   │   ├── scripts/          # Core processing scripts  
+│   ├── tests/                # Test cases for validation  
+│  
+├── airflow_home/             # Apache Airflow home directory  
+│  
+├── config/                   # Configuration files  
+│   ├── docker-compose.yml    # Docker setup for services  
+│   ├── elasticsearch.yml     # Elasticsearch configuration  
+│   ├── kibana.yml            # Kibana configuration  
+│   ├── stoplist.txt          # Stopwords list  
+│  
+├── docs/                     # Documentation  
+│  
+├── .coverage                 # Test coverage report  
+├── .gitignore                # Git ignore file  
+├── README.md                 # Project documentation  
 ```
 
-## Setup & Installation
+## Pipeline Workflow
+The CI/CD pipeline is triggered on push and pull requests to the following branches:
 
-1. **Environment Setup**
-```bash
-python -m venv venv
-source venv/bin/activate  # or `venv\Scripts\activate` on Windows
-pip install -r requirements.txt
-```
+-assignment_3_main
+-rag
 
-2. **Kaggle Authentication**
-- Make sure Kaggle is installed in your environment
-- Create an API token on your Kaggle account (under "Account" > "API" > "Create New API Token"). 
-- Place the downloaded kaggle.json file in the correct location 
-- (usually ~/.kaggle/kaggle.json on Unix or C:\Users\<User>\.kaggle\kaggle.json on Windows) or 
-- Set the appropriate environment variables.
-```bash
-export KAGGLE_USERNAME=username
-export KAGGLE_KEY=api_key
-```
+## CI/CD Pipeline Steps
+**1. Environment Setup**
+Checks out the latest code from GitHub.
 
-3. **Airflow Configuration**
-- Set home variable using command: export AIRFLOW_HOME="path to DataPipeline on local"
-- Verify airflow.cfg file and change path to dags_folder,base_log_folder,plugins_folder,sql_alchemy_conn,dag_processor_manager_log_location,child_process_log_directory according to your local path
-- check environment is activated using command source venv/bin/activate
-- Python version should be <= 3.10 to work with airflow
-- Initialize the database: `airflow db init`
-- Create admin user using following command:
-airflow users create \
-  --username admin \
-  --firstname First \
-  --lastname Last \
-  --email admin@example.com \
-  --role Admin \
-  --password admin_password
-- airflow scheduler
-- airflow webserver
+Sets up Python 3.10 environment.
+
+Caches pip dependencies to speed up installation.
+
+Installs necessary dependencies from requirements.txt and Data-Pipeline.
+
+**2. Elasticsearch Service**
+Spins up an Elasticsearch container (8.6.2) for indexing and querying.
+
+Runs health checks to ensure Elasticsearch is operational.
+
+**3. Data Handling**
+Data Acquisition: Downloads datasets from Kaggle using API credentials.
+
+Data Preprocessing: Parses and structures data into a usable format.
+
+**4. Indexing and Querying**
+Data Indexing: Loads processed data into Elasticsearch for retrieval.
+
+Querying: Tests retrieval performance using a sample search query.
+
+**5. Bias Detection & Normalization**
+Normalization Bias Assessment: Evaluates whether score normalization impacts retrieval biases.
+
+Bias Detection & Removal: Identifies and mitigates potential biases in responses.
+
+**6. RAG-Based Output Generation and Model Sensitivity Analysis**
+Retrieves top relevant documents from Elasticsearch.
+
+Generates LLM-based responses using OpenAI’s API.
+
+Performed a sensitivity analysis on the VADER sentiment analysis by varying the positive threshold from 0.05 to 0.2 and the negative threshold from -0.05 to -0.2. Our analysis showed that as the negative threshold was lowered (e.g., from -0.05 to -0.2), the number of tweets classified as negative decreased, with a corresponding increase in tweets labeled as neutral. For example, with a positive threshold of 0.05 and a negative threshold of -0.05, 57 tweets were positive, 11 were neutral, and 32 were negative. Changing the negative threshold to -0.2 resulted in 57 positive, 14 neutral, and 29 negative tweets. This shift suggests that more tweets are considered neutral when using a stricter negative threshold, which could affect downstream insights generated by our RAG system. We further correlated these distributions with the quality of the generated insights to determine the optimal threshold settings for our application.
+**Sentiment Distribution Across Different Positive Thresholds:**
+This figure illustrates the distribution of tweet sentiments (Positive, Neutral, and Negative) based on different positive sentiment thresholds (0.05, 0.1, and 0.2).
+
+Top Chart (pos_thresh = 0.05): More tweets are classified as positive, with a slight decrease in neutral and negative categories.
+
+Middle Chart (pos_thresh = 0.1): The number of positive tweets slightly decreases, shifting some tweets to neutral and negative classes.
+
+Bottom Chart (pos_thresh = 0.2): A stricter positive threshold results in fewer positive tweets, increasing neutral and negative tweet counts.
+![alt text](image-1.png)
+## Model Sentiment Analysis
+
+- Runs a sensitivity analysis on indexed tweets.
+- Sentiment classification is based on:
+  - **Positive threshold** (`pos_thresh = 0.2`)
+  - **Negative threshold** (`neg_thresh = -0.2`)
+- The tweets are classified into:
+  - **Positive tweets**
+  - **Neutral tweets**
+  - **Negative tweets**
+- The results are printed in the logs.
+
+**7. Model Validation**
+The performance of the model's output generation was evaluated using standard classification metrics: precision, recall, F1-score, and accuracy. Precision, which measures the correctness of the predicted paraphrases, was 0.78, as two out of three predictions were correct. Recall, which assesses the model's ability to identify all correct paraphrases, was 1.0, indicating perfect recall in this case. The F1-score, the harmonic mean of precision and recall, was approximately 0.8, reflecting a good balance between the two. Accuracy, which measures the proportion of correct predictions out of all predictions, was 0.82, as two predictions were correct out of three. These values suggest that the model performs well in identifying paraphrases but could improve in ensuring higher precision.
+Summary of Metrics:
+•	Precision: 0.78
+•	Recall: 1.0
+•	F1-Score: 0.8
+•	Accuracy: 0.82
+
+## Prerequisites
+
+Before running the CI/CD pipeline, ensure the following prerequisites are met:
+
+- **Docker** installed for running Elasticsearch.
+- **GitHub Actions** enabled for automated execution.
+- **Secrets Configured in GitHub:**
+  - `KAGGLE_USERNAME` – Your Kaggle account username.
+  - `KAGGLE_KEY` – Your Kaggle API key for data downloads.
+  - `OPENAI_API_KEY` – API key for generating responses using OpenAI’s LLM.
 
 ## Core Components
 
@@ -166,30 +218,6 @@ Test Coverage Requirements:
 - Language filtering
 - Duplicate detection
 
-### 7. Airflow Integration
-- Automated pipeline scheduling
-- DAG structure:
-  1. Data download
-  2. Preprocessing
-  3. Quality checks
-  4. Error reporting
-
-## Pipeline Flow
-1. **Data Acquisition**
-   - Download specified dataset versions
-   - Extract and validate files
-   - Log acquisition metrics
-
-2. **Preprocessing**
-   - Clean and structure tweets
-   - Extract relevant features
-   - Apply quality filters
-
-3. **Quality Assurance**
-   - Validate against schema
-   - Check data completeness
-   - Monitor processing metrics
-
 ## Monitoring & Metrics
 - Processing success rate
 - Data quality scores
@@ -239,5 +267,3 @@ For questions or collaboration, please open an issue or contact the developers.
 ## Pipeline Graph and Gantt Chart
 ![image](https://github.com/user-attachments/assets/5aed4a13-abbd-4e76-a598-b05787edb701)
 ![image](https://github.com/user-attachments/assets/8fb06d26-4e57-4d1d-8473-33fbd90714db)
-
-
