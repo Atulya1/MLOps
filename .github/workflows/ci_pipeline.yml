@@ -120,6 +120,32 @@ jobs:
           print('Data Querying Successful')
           EOF
 
+      - name: Assess Normalization Bias
+        run: |
+          python - <<EOF
+          from data_pipeline.scripts.es_query import assess_normalization_bias
+          from data_pipeline.scripts.data_indexing_elasticsearch import get_index_name
+          
+          query_string = "Who is winning the Russia-Ukraine war?"
+
+          # Compare the search scores between the two methods
+          assess_normalization_bias(get_index_name(4), query_string, size=10)
+          EOF
+
+      - name: Bias Detection and Removal
+        run: |
+          python - <<EOF
+          from data_pipeline.scripts.rag import detect_and_remove_bias
+          from data_pipeline.scripts.es_query import search_custom
+          from data_pipeline.scripts.data_indexing_elasticsearch import get_index_name
+          
+          question = "Who is winning the Russia-Ukraine war?"
+          response = search_custom(get_index_name(4), question, size=100)
+          knowledge_text = detect_and_remove_bias(response)
+          print(f"Combined Knowledge test before normalization and removing bias: {knowledge_text['knowledge_text_with_bias']}")
+          print(f"Combined Knowledge test after normalization and removing bias: {knowledge_text['knowledge_text_without_bias']}")
+          EOF
+
       - name: RAG Output
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
@@ -136,4 +162,45 @@ jobs:
           print(result)
           top_tweets = get_top_tweets(question)
           print(top_tweets)
+          EOF
+
+      - name: RAG Sensitivity
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: |
+          python - <<EOF
+          from data_pipeline.scripts.rag import get_results, get_top_tweets
+          from data_pipeline.scripts.data_indexing_elasticsearch import get_index_name
+          
+          question = "Who is winning the Russia-Ukraine war?"
+          similarity_threshold = 1.5
+          document_count = [3, 5, 10]
+          temperature = [0.0, 0.1, 0.2]
+          for k in document_count:
+            for temp in temperature:
+              result = get_results(question, get_index_name(4), similarity_threshold, k, temp)
+              print(result)
+              top_tweets = get_top_tweets(question)
+              print(top_tweets)
+          EOF
+
+      - name: Sensitivity Analysis
+        run: |
+          python - <<EOF
+          from data_pipeline.scripts.sensitivity_analysis import run_analysis, create_sentiment_sets
+          from data_pipeline.scripts.data_indexing_elasticsearch import get_index_name
+          from data_pipeline.scripts.es_query import search_custom
+          
+          question = "Who is winning the Russia-Ukraine war?"
+          run_analysis(get_index_name(4), question, 100)
+          
+          print("Based on the sensitivity analysis performed on the tweets, we are classifying the tweets in positive, negative, and neutral sets")
+          pos_thresh = 0.2
+          neg_thresh = -0.2
+          response = search_custom(get_index_name(4), question, size=100)
+          positive_tweets, neutral_tweets, negative_tweets = create_sentiment_sets(response, pos_thresh, neg_thresh)
+          
+          print("Positive tweets: ", positive_tweets)
+          print("Neutral tweets: ", neutral_tweets)
+          print("Negative tweets: ", negative_tweets)
           EOF
