@@ -179,8 +179,8 @@ def query_question(question: str, similarity_threshold, k) -> dict:
                 "answer": "Compound score exceeded the similarity threshold. No answers were found."}
 
 
-def get_top_tweets(query: str, k) -> list:
-    docs_with_scores = vectorstore.similarity_search_with_score(query, k=k)
+def get_top_tweets(query) -> list:
+    docs_with_scores = vectorstore.similarity_search_with_score(query, k=5)
     results = []
     for idx, (doc, score) in enumerate(docs_with_scores, 1):
         results.append({
@@ -371,7 +371,7 @@ def main():
 
     # run_analysis(result)
     # Extract tweet texts and append additional relevant fields
-    top_tweets = get_top_tweets(question, document_count)
+    top_tweets = get_top_tweets(question)
     logger.info(top_tweets)
 
 
