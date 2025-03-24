@@ -1,4 +1,5 @@
 import os
+import math
 
 # Import LangChain components
 from langchain_community.embeddings import OpenAIEmbeddings
@@ -7,11 +8,14 @@ from langchain_community.vectorstores import FAISS
 from langchain.chains import RetrievalQA
 from langchain_community.chat_models import ChatOpenAI
 from dotenv import load_dotenv
-load_dotenv()
 
+load_dotenv()
 
 from .es_query import search_custom
 from .data_indexing_elasticsearch import get_index_name
+from .logging_config import get_logger
+
+logger = get_logger("rag.log", logger_name=__name__)
 
 import ssl
 import nltk
@@ -29,12 +33,6 @@ nltk.download('vader_lexicon')
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 
 sia = SentimentIntensityAnalyzer()
-
-# Configure logging
-from .logging_config import get_logger
-
-logger = get_logger("rag.log", logger_name=__name__)
-
 
 # --- Configuration ---
 
@@ -208,6 +206,16 @@ def classify_tweet(tweet):
         return "neutral", score
 
 
+# def classify_with_threshold(text, pos_thresh, neg_thresh):
+#     score = sia.polarity_scores(text)["compound"]
+#     if score >= pos_thresh:
+#         return "positive", score
+#     elif score <= neg_thresh:
+#         return "negative", score
+#     else:
+#         return "neutral", score
+
+
 def find_sentiment_analysis(tweets):
     tweet_sentiments = []
     for tweet in tweets:
@@ -216,14 +224,9 @@ def find_sentiment_analysis(tweets):
     return tweet_sentiments
 
 
-def get_results(question, es_index_name, similarity_threshold, document_count, temperature):
-    logger.info(f"Similarity Threshold: {similarity_threshold}")
-    logger.info(f"Number of Retrieved Documents: {document_count}")
-    logger.info(f"Temperature: {temperature}")
-    response = search_custom(es_index_name, question, size=100)
-
+def detect_and_remove_bias(query_response_es):
     tweet_texts = []
-    for hit in response["hits"]["hits"]:
+    for hit in query_response_es["hits"]["hits"]:
         source = hit.get("_source", {})
         tweet_text = source.get("text", "")
         username = source.get("username", "")
@@ -232,12 +235,37 @@ def get_results(question, es_index_name, similarity_threshold, document_count, t
         retweet_count = source.get("retweetcount", "")
         following = source.get("following", "")
         followers = source.get("followers", "")
-        totaltweets = source.get("totaltweets", "")
+        total_tweets = source.get("totaltweets", "")
 
-        tweet_texts.append(tweet_text)
+        # Convert numeric fields to float; if conversion fails or value is not positive, default to 0.0.
+        try:
+            f1 = float(followers) if followers and float(followers) > 0 else 0.0
+        except:
+            f1 = 0.0
 
-        # Construct a combined representation for each tweet
-        combined_text = f"{tweet_text}"
+        try:
+            r1 = float(retweet_count) if retweet_count and float(retweet_count) > 0 else 0.0
+        except:
+            r1 = 0.0
+
+        try:
+            t = float(total_tweets) if total_tweets and float(total_tweets) > 0 else 0.0
+        except:
+            t = 0.0
+
+        try:
+            f2 = float(following) if following and float(following) > 0 else 0.0
+        except:
+            f2 = 0.0
+
+        # Normalize using math.log1p (i.e., log(1+x)) and scale down by divisor (10.0)
+        followersNorm = math.log1p(f1) / 10.0
+        retweetsNorm = math.log1p(r1) / 10.0
+        followingNorm = math.log1p(t) / 10.0
+        totaltweetsNorm = math.log1p(f2) / 10.0
+
+        # Construct a combined representation for the tweet.
+        combined_text = tweet_text
         if username:
             combined_text += f" | Username: {username}"
         if tweet_timestamp:
@@ -245,18 +273,27 @@ def get_results(question, es_index_name, similarity_threshold, document_count, t
         if hashtags:
             combined_text += f" | Hashtags: {' '.join(hashtags)}"
         if retweet_count:
-            combined_text += f" | Retweets: {retweet_count}"
+            combined_text += f" | Retweets: {retweetsNorm}"
         if following:
-            combined_text += f" | Following: {following}"
+            combined_text += f" | Following: {followingNorm}"
         if followers:
-            combined_text += f" | Followers: {followers}"
-        if totaltweets:
-            combined_text += f" | TotalTweets: {totaltweets}"
+            combined_text += f" | Followers: {followersNorm}"
+        if total_tweets:
+            combined_text += f" | TotalTweets: {totaltweetsNorm}"
 
         tweet_texts.append(combined_text)
 
-    # Combine all enriched tweet texts into a single aggregated string.
     knowledge_text = "\n".join(tweet_texts)
+    return knowledge_text
+
+
+def get_results(question, es_index_name, similarity_threshold, document_count, temperature):
+    logger.info(f"Similarity Threshold: {similarity_threshold}")
+    logger.info(f"Number of Retrieved Documents: {document_count}")
+    logger.info(f"Temperature: {temperature}")
+    response = search_custom(es_index_name, question, size=100)
+
+    knowledge_text = detect_and_remove_bias(response)
 
     # Now pass this aggregated text as your knowledge source:
     load_or_create_vectorstore(knowledge_text, temperature)
@@ -266,14 +303,39 @@ def get_results(question, es_index_name, similarity_threshold, document_count, t
     return result
 
 
+# def run_analysis(result):
+#     """
+#     Perform sensitivity analysis on the sentiment classification by
+#     varying positive and negative thresholds. It retrieves tweets using
+#     the provided question and logs the sentiment distribution for each
+#     threshold combination.
+#     """
+#
+#     pos_thresholds = [0.0, 0.05, 0.1, 0.2]
+#     neg_thresholds = [-0.05, -0.1, -0.2]
+#     # Retrieve tweets from Elasticsearch using the provided question
+#     # Loop through each combination of thresholds and classify sentiments
+#     for p_thresh in pos_thresholds:
+#         for n_thresh in neg_thresholds:
+#             counts = {"positive": 0, "neutral": 0, "negative": 0}
+#             sentiment, score = classify_with_threshold(result, p_thresh, n_thresh)
+#             counts[sentiment] += 1
+#             logger.info(f"\nThresholds: pos_thresh = {p_thresh}, neg_thresh = {n_thresh}")
+#             logger.info(f"Sentiment counts: {counts}")
+
+
 def main():
     # question = "When do you expect the Russia-Ukraine war to end? Additionally, please provide statistics on how many people view this war as just, unjust, or neutral."
     question = "Who is winning the Russia-Ukraine war?"
     # question = "Will apple release iphone 200?"
 
-    result = get_results(question, get_index_name(3), 1.5, 10, 0.0)
+    similarity_threshold = 1.5
+    document_count = 10
+    temperature = 0.0
+    result = get_results(question, get_index_name(3), similarity_threshold, document_count, temperature)
     logger.info(result)
 
+    # run_analysis(result)
     # Extract tweet texts and append additional relevant fields
     top_tweets = get_top_tweets(question)
     logger.info(top_tweets)

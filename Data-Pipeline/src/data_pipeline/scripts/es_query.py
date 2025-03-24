@@ -16,6 +16,7 @@ from .logging_config import get_logger
 
 logger = get_logger("es_query_custom.log", logger_name=__name__)
 
+
 def get_es_client(host="http://localhost:9200", timeout=30):
     """
     Returns an Elasticsearch client.
@@ -26,6 +27,7 @@ def get_es_client(host="http://localhost:9200", timeout=30):
     else:
         logger.warning(f"Failed to connect to Elasticsearch at {host}")
     return es
+
 
 def search_custom(index_name, query_string, size=10):
     """
@@ -105,6 +107,48 @@ def search_custom(index_name, query_string, size=10):
         logger.error(f"Error during search: {e}")
         return []
 
+
+def search_custom_text(index_name, query_string, size=10):
+    """
+    Executes a custom search query on the given Elasticsearch index.
+    Combines a multi_match text query with a function_score query.
+
+    Args:
+        index_name (str): Name of the index to search.
+        query_string (str): The text query.
+        size (int): Number of results to return.
+
+    Returns:
+        list: A list of hit documents returned from Elasticsearch.
+    """
+    logger.info(f"Executing search query: '{query_string}' on index '{index_name}' (size={size})")
+
+    query_body = {
+        "size": size,
+        "query": {
+            "function_score": {
+                "query": {
+                    "multi_match": {
+                        "query": query_string,
+                        "fields": ["text", "hashtags"]
+                    }
+                },
+                "score_mode": "sum",
+                "boost_mode": "replace"
+            }
+        }
+    }
+
+    try:
+        response = get_es_client().search(index=index_name, body=query_body)
+        hits = response.get("hits", {}).get("hits", [])
+        logger.info(f"Search completed: {len(hits)} hits returned (took {response.get('took')} ms).")
+        return hits
+    except Exception as e:
+        logger.error(f"Error during search: {e}")
+        return []
+
+
 def main():
     """
     Main function for standalone testing.
@@ -126,7 +170,42 @@ def main():
         score = hit.get("_score", 0)
         text = hit.get("_source", {}).get("text", "")
         logger.info(f"Tweet ID: {tweet_id}, Score: {score}, Text: {text}")
-        print(f"Tweet ID: {tweet_id}\nScore: {score}\nText: {text}\n{'-'*40}")
+        print(f"Tweet ID: {tweet_id}\nScore: {score}\nText: {text}\n{'-' * 40}")
+
+
+def assess_normalization_bias(index_name, query_string, size=10):
+    """
+    Compares the scores returned by search_custom and search_custom_text.
+    Computes and logs the average scores for each, as well as the difference.
+    """
+    # Run the two different search queries
+    response_custom = search_custom(index_name, query_string, size)
+    hits_custom = response_custom.get("hits", {}).get("hits", []) if isinstance(response_custom, dict) else []
+
+    hits_custom_text = search_custom_text(index_name, query_string, size)
+
+    # Compute average scores
+    avg_custom = sum(hit.get("_score", 0) for hit in hits_custom) / len(hits_custom) if hits_custom else 0
+    avg_custom_text = sum(hit.get("_score", 0) for hit in hits_custom_text) / len(
+        hits_custom_text) if hits_custom_text else 0
+    score_diff = avg_custom - avg_custom_text
+
+    logger.info(f"Average score (custom query): {avg_custom}")
+    logger.info(f"Average score (custom text query): {avg_custom_text}")
+    logger.info(f"Difference in average scores: {score_diff}")
+
+    print("Comparison of Search Scores:")
+    print(f"Average score (custom query): {avg_custom}")
+    print(f"Average score (custom text query): {avg_custom_text}")
+    print(f"Difference in average scores: {score_diff}")
+
+    # Optionally, you can also compare hit-by-hit if they align (by _id), but often the hit order may differ.
+    return {
+        "avg_custom": avg_custom,
+        "avg_custom_text": avg_custom_text,
+        "score_diff": score_diff
+    }
+
 
 if __name__ == "__main__":
     main()

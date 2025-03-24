@@ -120,6 +120,41 @@ jobs:
           print('Data Querying Successful')
           EOF
 
+      - name: Assess Normalization Bias
+        run: |
+          python - <<EOF
+          from data_pipeline.scripts.es_query import search_custom
+          from data_pipeline.scripts.es_query import search_custom_text
+          from data_pipeline.scripts.data_indexing_elasticsearch import get_index_name
+          
+          query_string = "Who is winning the Russia-Ukraine war?" if len(sys.argv) < 2 else " ".join(sys.argv[1:])
+          index_name = get_index_name(4) # Change if needed
+
+          hits = search_custom(index_name, query_string, size=10)
+          print("Search results from custom query:")
+          for hit in hits.get("hits", {}).get("hits", []):
+            tweet_id = hit.get("_id", "unknown")
+            score = hit.get("_score", 0)
+            text = hit.get("_source", {}).get("text", "")
+            logger.info(f"Tweet ID: {tweet_id}, Score: {score}, Text: {text}")
+              print(f"Tweet ID: {tweet_id}\nScore: {score}\nText: {text}\n{'-' * 40}")
+
+          # Compare the search scores between the two methods
+          assess_normalization_bias(index_name, query_string, size=10)
+          EOF
+
+      - name: Bias Detection and Removal
+        run: |
+          python - <<EOF
+          from data_pipeline.scripts.rag import detect_and_remove_bias
+          from data_pipeline.scripts.data_indexing_elasticsearch import get_index_name
+          
+          question = "Who is winning the Russia-Ukraine war?"
+          response = search_custom(get_index_name(3), question, size=100)
+          knowledge_text = detect_and_remove_bias(response)
+          print(knowledge_text)
+          EOF
+
       - name: RAG Output
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
