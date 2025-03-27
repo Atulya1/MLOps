@@ -9,7 +9,6 @@ Data-Pipeline/src/data_pipeline/data/version_1
 Data-Pipeline/src/data_pipeline/data/version_2
 Data-Pipeline/src/data_pipeline/data/version_3
 
-Data-Pipeline/src/data_pipeline/scripts/
 Data-Pipeline/scripts/.ipynb_checkpoints
 Data-Pipeline/src/data_pipeline/scripts/.ipynb_checkpoints
 Data-Pipeline/tests/__pycache__/

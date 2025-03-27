@@ -21,8 +21,8 @@ import re
 import json
 import csv
 
-from .logging_config import get_logger
-from .data_schema import validate_tweet_row_schema
+from logging_config import get_logger
+from data_schema import validate_tweet_row_schema
 
 logger = get_logger("data_preprocessing.log", logger_name=__name__)
 

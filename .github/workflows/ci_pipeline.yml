@@ -2,12 +2,12 @@ name: CI Pipeline (Airflow‑Like Steps)
 on:
   push:
     branches:
-      - assignment_3_main
-      - rag
+#      - assignment_3_main
+#      - rag
   pull_request:
     branches:
-      - assignment_3_main
-      - rag
+#      - assignment_3_main
+#      - rag
 jobs:
   build-test-index-query:
     runs-on: ubuntu-latest
